@@ -6,6 +6,6 @@ projects/
 server/
 transient/
 
-README.el
+emacs.el
 custom.el
 *.elc

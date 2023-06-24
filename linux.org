@@ -1,0 +1,250 @@
+#+TITLE: Linux Configuration
+#+STARTUP: content
+#+PROPERTY: header-args :mkdirp yes
+
+* Setup
+
+#+begin_src sh
+#!/bin/bash
+
+set -euo pipefail
+
+sudo apt -y update
+sudo apt -y install numix-gtk-theme numix-icon-theme-circle
+sudo apt -y install emacs git keepassxc homebank syncthing redshift-gtk dotnet6
+sudo apt -y install nvidia-driver-515
+
+sudo ufw enable
+sudo ufw allow syncthing
+
+mkdir ~/.config/autostart && cp /usr/share/applications/syncthing-start.desktop "$_"
+
+sudo apt -y remove mousepad
+sudo apt -y autoremove
+sudo apt -y upgrade
+
+sudo snap install hugo signal-desktop
+
+xfconf-query -c 'xsettings' -p '/Net/ThemeName' -s 'Numix'
+xfconf-query -c 'xsettings' -p '/Net/IconThemeName' -s 'Numix-Circle'
+xfconf-query -c 'xfwm4' -p '/general/theme' -s 'Numix'
+xfconf-query -c 'xfwm4' -p '/general/placement_ratio' -s 100
+xfconf-query -c 'xfce4-keyboard-shortcuts' -p '/commands/custom/<Super>e' -s 'emacs'
+xfconf-query -c 'xfce4-panel' -p '/panels/panel-0/position' -s 'p=8;x=960;y=1067'
+xfconf-query -c 'xfce4-panel' -p '/panels/panel-0/size' -s '32'
+xfconf-query -c 'xfce4-screensaver' -p '/saver/idle-activation/delay' -s 15
+xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-home' -s 'false'
+xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-trash' -s 'false'
+xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-filesystem' -s 'false'
+xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-removable' -s 'false'
+
+echo snap >> ~/.hidden
+echo firefix.tmp >> ~/Downloads/.hidden
+
+git clone git@github.com:fwinkelbauer/dotfiles.git ~/.config/emacs
+git clone git@github.com:fwinkelbauer/chunkyard.git ~/Projects/chunkyard
+git clone git@github.com:fwinkelbauer/fwinkelbauer.github.io.git ~/Projects/website
+#+end_src
+
+- Deactivate global announce and relay features in Syncthing
+- Configure Firefox/Thunderbird
+
+
+* Applications
+
+** System
+
+#+begin_src conf :tangle "~/.local/share/applications/emacs.desktop"
+[Desktop Entry]
+Version=1.0
+Name=Emacs (GUI)
+GenericName=Text Editor
+Comment=GNU Emacs is an extensible, customizable text editor - and more
+MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
+TryExec=/usr/bin/emacs
+Exec=emacsclient -na emacs %F
+Icon=emacs
+Type=Application
+Terminal=false
+Categories=Utility;Development;TextEditor;
+StartupWMClass=Emacs
+Keywords=Text;Editor;
+Path=
+StartupNotify=false
+#+end_src
+
+#+begin_src conf :tangle "~/.local/share/applications/emacs-term.desktop"
+[Desktop Entry]
+Hidden=true
+#+end_src
+
+#+begin_src fundamental :tangle "~/.config/gtk-3.0/bookmarks"
+file:///home/florian/Documents
+file:///home/florian/Downloads
+file:///home/florian/Music
+file:///home/florian/Pictures
+file:///home/florian/Videos
+davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer mailbox.org
+#+end_src
+
+** Emacs
+
+#+begin_src emacs-lisp :tangle "~/.config/emacs/custom.el"
+(setq default-directory "~/Documents/org/"
+      org-directory default-directory
+      org-default-notes-file (concat org-directory "inbox.org")
+      org-agenda-files `(,org-directory)
+      org-deadline-warning-days 30
+      elfeed-db-directory "~/Documents/elfeed/"
+      browse-url-browser-function 'browse-url-firefox
+      browse-url-firefox-arguments '("-private-window"))
+
+(setq elfeed-feeds
+      '(("https://www.youtube.com/feeds/videos.xml?channel_id=UCTdw38Cw6jcm0atBPA39a0Q" conference) ; NDC
+        ("https://www.youtube.com/feeds/videos.xml?channel_id=UC3PGn-hQdbtRiqxZK9XBGqQ" conference) ; DDD Europe
+        ("https://www.youtube.com/feeds/videos.xml?user=MarakanaTechTV" conference) ; InfoQ
+        ("https://www.youtube.com/feeds/videos.xml?user=GotoConferences" conference)
+        ("https://hnrss.org/frontpage?link=comments&points=50" news)
+        ("https://hnrss.org/ask?link=comments&points=50" news)))
+
+(setq magit-repository-directories
+      '(("~/.config/emacs/" . 0)
+        ("~/Projects/" . 1)))
+
+(setq org-agenda-category-icon-alist
+      (list (fw/org-agenda-category-icon "Inbox" "nf-md-email")
+            (fw/org-agenda-category-icon "Geburtstag" "nf-md-cake_variant")
+            (fw/org-agenda-category-icon "Wichtig" "nf-md-star")
+            (fw/org-agenda-category-icon "Termin" "nf-md-calendar")
+            (fw/org-agenda-category-icon "Frist" "nf-md-shield_alert")
+            (fw/org-agenda-category-icon "Aufgabe" "nf-md-file_document_outline")
+            (fw/org-agenda-category-icon "Wiederh" "nf-md-update")
+            (fw/org-agenda-category-icon "Hausbau" "nf-md-home")))
+
+(defun fw/elfeed-db-compact ()
+  "Runs `elfeed-db-compact' if uncompressed entries exist"
+  (interactive)
+  (require 'elfeed)
+  (when (< 3 (length (directory-files-recursively elfeed-db-directory ".*")))
+    (elfeed-db-compact)))
+
+(find-file org-default-notes-file)
+#+end_src
+
+#+begin_src emacs-lisp :tangle "~/Projects/.dir-locals.el"
+((markdown-mode .
+                ((eval . (flyspell-mode))
+                 (eval . (flyspell-buffer)))))
+#+end_src
+
+** Git
+
+#+begin_src conf :tangle "~/.config/git/config"
+[user]
+  email = mail@florianwinkelbauer.com
+  name = Florian Winkelbauer
+
+[push]
+  followTags = true
+
+[status]
+  showUntrackedFiles = all
+
+[fetch]
+  prune = true
+
+[pull]
+  ff = only
+
+[merge]
+  conflictstyle = diff3
+
+[init]
+  defaultBranch = main
+#+end_src
+
+
+* Scripts
+
+** Chunkyard
+
+#+begin_src sh :tangle "~/.local/bin/my-store" :shebang "#!/bin/bash"
+set -euo pipefail
+
+emacs -l ~/.config/emacs/init.el --batch --eval '(fw/elfeed-db-compact)' 2>/dev/null
+
+local=~/.chunkyard
+
+directories=(
+    ~/Documents
+    ~/Music
+    ~/Pictures
+    ~/Videos
+)
+
+includes=(
+    '!\~$'
+)
+
+chunkyard store -r "$local" -p "${directories[@]}" -i "${includes[@]}" --prompt Libsecret --parallel 4 "$@"
+#+end_src
+
+#+begin_src sh :tangle "~/.local/bin/my-restore" :shebang "#!/bin/bash"
+set -euo pipefail
+
+local=~/.chunkyard
+
+chunkyard restore -r "$local" -d ~ --prompt Libsecret --parallel 4 "$@"
+#+end_src
+
+#+begin_src sh :tangle "~/.local/bin/my-copy" :shebang "#!/bin/bash"
+set -euo pipefail
+
+local=~/.chunkyard
+
+remotes=(
+    /media/florian/Backup1/Florian/main.chunkyard
+    /media/florian/Backup2/Florian/main.chunkyard
+)
+
+echo "Cleaning up: $local"
+chunkyard keep -r "$local" --latest 12 --prompt Libsecret
+chunkyard gc -r "$local" --prompt Libsecret
+
+for remote in "${remotes[@]}"; do
+    if [ -d "$remote" ]; then
+        echo "Pushing to: $remote"
+        chunkyard copy -r "$local" -d "$remote" --prompt Libsecret
+
+        echo "Pulling from: $remote"
+        chunkyard copy -r "$remote" -d "$local" --prompt Libsecret
+
+        echo "Cleaning up: $remote"
+        chunkyard keep -r "$remote" --latest 12 --prompt Libsecret
+        chunkyard gc -r "$remote" --prompt Libsecret
+    fi
+done
+#+end_src
+
+** Homebank
+
+#+begin_src sh :tangle "~/.local/bin/my-homebank" :shebang "#!/bin/bash"
+set -euo pipefail
+
+input=$(find ~/Downloads -name 'ums*.csv')
+output=~/Downloads/homebank.csv
+
+iconv -f cp1252 -t utf8 "$input" | awk '{ FS=";"; RS="\r?\n"; gsub("\"", "", $10); if (NR!=1) { print $3 ";8;;;" $10 ";" $8 ";;" } }' > "$output"
+rm "$input"
+#+end_src
+
+** System
+
+#+begin_src sh :tangle "~/.local/bin/my-upgrade" :shebang "#!/bin/bash"
+set -euo pipefail
+
+sudo apt update
+sudo apt upgrade -y
+sudo apt auto-remove -y
+sudo snap refresh
+#+end_src
