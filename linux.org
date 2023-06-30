@@ -186,7 +186,7 @@ includes=(
     '!\~$'
 )
 
-chunkyard store -r "$local" -p "${directories[@]}" -i "${includes[@]}" --prompt Libsecret --parallel 4 "$@"
+chunkyard store --repository "$local" --paths "${directories[@]}" --include "${includes[@]}" --prompt 'Libsecret' --parallel '4' "$@"
 #+end_src
 
 #+begin_src sh :tangle "~/.local/bin/my-restore" :shebang "#!/bin/bash"
@@ -194,7 +194,7 @@ set -euo pipefail
 
 local=~/.chunkyard
 
-chunkyard restore -r "$local" -d ~ --prompt Libsecret --parallel 4 "$@"
+chunkyard restore --repository "$local" --directory '~' --prompt 'Libsecret' --parallel '4' "$@"
 #+end_src
 
 #+begin_src sh :tangle "~/.local/bin/my-copy" :shebang "#!/bin/bash"
@@ -208,20 +208,20 @@ remotes=(
 )
 
 echo "Cleaning up: $local"
-chunkyard keep -r "$local" --latest 12 --prompt Libsecret
-chunkyard gc -r "$local" --prompt Libsecret
+chunkyard keep --repository "$local" --latest '12' --prompt 'Libsecret'
+chunkyard gc --repository "$local" --prompt 'Libsecret'
 
 for remote in "${remotes[@]}"; do
     if [ -d "$remote" ]; then
         echo "Pushing to: $remote"
-        chunkyard copy -r "$local" -d "$remote" --prompt Libsecret
+        chunkyard copy --repository "$local" --destination "$remote" --prompt 'Libsecret'
 
         echo "Pulling from: $remote"
-        chunkyard copy -r "$remote" -d "$local" --prompt Libsecret
+        chunkyard copy --repository "$remote" --destination "$local" --prompt 'Libsecret'
 
         echo "Cleaning up: $remote"
-        chunkyard keep -r "$remote" --latest 12 --prompt Libsecret
-        chunkyard gc -r "$remote" --prompt Libsecret
+        chunkyard keep --repository "$remote" --latest '12' --prompt 'Libsecret'
+        chunkyard gc --repository "$remote" --prompt 'Libsecret'
     fi
 done
 #+end_src
