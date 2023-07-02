@@ -47,7 +47,7 @@ git clone git@github.com:fwinkelbauer/fwinkelbauer.github.io.git ~/Projects/webs
 #+end_src
 
 - Deactivate global announce and relay features in Syncthing
-- Configure Firefox/Thunderbird
+- Configure browser and mail client
 
 
 * Applications
