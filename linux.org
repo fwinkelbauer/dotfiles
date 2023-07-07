@@ -154,7 +154,10 @@ davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer 
   prune = true
 
 [pull]
-  ff = only
+  rebase = true
+
+[rebase]
+  autoStash = true
 
 [merge]
   conflictstyle = diff3
