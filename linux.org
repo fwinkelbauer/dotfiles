@@ -171,10 +171,6 @@ davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer 
 
 ** Chunkyard
 
-#+begin_src fundamental :tangle "~/.chunkyard.config"
---repository .chunkyard --prompt Libsecret
-#+end_src
-
 #+begin_src sh :tangle "~/.local/bin/my-store" :shebang "#!/bin/bash"
 set -euo pipefail
 
