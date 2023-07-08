@@ -193,7 +193,7 @@ includes=(
     '!\~$'
 )
 
-chunkyard store --repository "$local" --paths "${directories[@]}" --include "${includes[@]}" --prompt 'Libsecret' --parallel '4' "$@"
+chunkyard store --repository "$local" --paths "${directories[@]}" --includes "${includes[@]}" --prompt 'Libsecret' --parallel '4' "$@"
 #+end_src
 
 #+begin_src sh :tangle "~/.local/bin/my-restore" :shebang "#!/bin/bash"
