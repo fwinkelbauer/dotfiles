@@ -152,6 +152,7 @@ davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer 
 
 [fetch]
   prune = true
+  pruneTags = true
 
 [pull]
   rebase = true
