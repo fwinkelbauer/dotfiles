@@ -323,10 +323,8 @@ project-current directory:
 
 ** Themes
 
-I like to use [[https://github.com/purcell/color-theme-sanityinc-tomorrow][light themes]]:
-
 #+begin_src emacs-lisp
-(load-theme 'sanityinc-tomorrow-day t)
+(load-theme 'sanityinc-tomorrow-night t)
 #+end_src
 
 with just some minor adjustments:
