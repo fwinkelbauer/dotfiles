@@ -198,7 +198,7 @@ set -euo pipefail
 
 local=~/.chunkyard
 
-chunkyard restore --repository "$local" --directory '~' --prompt 'Libsecret' --parallel '4' "$@"
+chunkyard restore --repository "$local" --directory ~ --prompt 'Libsecret' --parallel '4' "$@"
 #+end_src
 
 #+begin_src sh :tangle "~/.local/bin/my-copy" :shebang "#!/bin/bash"
