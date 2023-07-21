@@ -235,10 +235,10 @@ done
 #+begin_src sh :tangle "~/.local/bin/my-homebank" :shebang "#!/bin/bash"
 set -euo pipefail
 
-input=$(find ~/Downloads -name 'ums*.csv')
+input=$(find ~/Downloads -name 'meinElba*.csv')
 output=~/Downloads/homebank.csv
 
-iconv -f cp1252 -t utf8 "$input" | awk '{ FS=";"; RS="\r?\n"; gsub("\"", "", $10); if (NR!=1) { print $3 ";8;;;" $10 ";" $8 ";;" } }' > "$output"
+awk '{ FS=";"; gsub("\"", ""); print $1 ";8;;;" $2 ";" $4 ";;" }' "$input" > "$output"
 rm "$input"
 #+end_src
 
