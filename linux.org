@@ -21,6 +21,8 @@ sudo apt -y autoremove
 sudo apt -y upgrade
 
 sudo snap install hugo signal-desktop
+echo snap >> ~/.hidden
+echo firefix.tmp >> ~/Downloads/.hidden
 
 xfconf-query -c 'xsettings' -p '/Net/ThemeName' -s 'Numix'
 xfconf-query -c 'xsettings' -p '/Net/IconThemeName' -s 'Numix-Circle'
@@ -34,9 +36,6 @@ xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-home' -s 'fal
 xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-trash' -s 'false'
 xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-filesystem' -s 'false'
 xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-removable' -s 'false'
-
-echo snap >> ~/.hidden
-echo firefix.tmp >> ~/Downloads/.hidden
 
 git clone git@github.com:fwinkelbauer/dotfiles.git ~/.config/emacs
 git clone git@github.com:fwinkelbauer/chunkyard.git ~/Projects/chunkyard
@@ -89,7 +88,7 @@ davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer 
       org-default-notes-file (concat org-directory "inbox.org")
       org-agenda-files `(,org-directory)
       org-deadline-warning-days 30
-      elfeed-db-directory "~/Documents/elfeed/"
+      elfeed-db-directory "~/Documents/archive/elfeed/"
       browse-url-browser-function 'browse-url-firefox
       browse-url-firefox-arguments '("-private-window"))
 
