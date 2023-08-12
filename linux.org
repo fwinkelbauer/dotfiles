@@ -202,6 +202,7 @@ local=~/.chunkyard
 remotes=(
     /media/florian/Backup1/Florian/main.chunkyard
     /media/florian/Backup2/Florian/main.chunkyard
+    /media/florian/DORA1/main.chunkyard
 )
 
 echo "Cleaning up: $local"
