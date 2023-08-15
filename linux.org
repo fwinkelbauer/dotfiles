@@ -111,8 +111,7 @@ davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer 
             (fw/org-agenda-category-icon "Termin" "nf-md-calendar")
             (fw/org-agenda-category-icon "Frist" "nf-md-shield_alert")
             (fw/org-agenda-category-icon "Aufgabe" "nf-md-file_document_outline")
-            (fw/org-agenda-category-icon "Wiederh" "nf-md-update")
-            (fw/org-agenda-category-icon "Hausbau" "nf-md-home")))
+            (fw/org-agenda-category-icon "Wiederh" "nf-md-update")))
 
 (defun fw/elfeed-db-compact ()
   "Runs `elfeed-db-compact' if uncompressed entries exist"
