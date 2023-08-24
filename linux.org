@@ -4,6 +4,8 @@
 
 * Setup
 
+This is my setup script for Xubuntu 22.04:
+
 #+begin_src sh
 #!/bin/bash
 
