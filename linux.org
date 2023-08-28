@@ -11,16 +11,12 @@ This is my setup script for Xubuntu 22.04:
 
 set -euo pipefail
 
-sudo apt -y update
+sudo apt update
 sudo apt -y install numix-gtk-theme numix-icon-theme-circle
 sudo apt -y install emacs git keepassxc homebank dotnet6
 sudo apt -y install nvidia-driver-515
 
 sudo ufw enable
-
-sudo apt -y remove mousepad
-sudo apt -y autoremove
-sudo apt -y upgrade
 
 sudo snap install hugo signal-desktop
 echo snap >> ~/.hidden
