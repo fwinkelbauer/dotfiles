@@ -10,3 +10,4 @@ transient/
 emacs.el
 custom.el
 *.elc
+projects
