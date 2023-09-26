@@ -382,7 +382,7 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
 (setq completion-styles '(orderless))
 #+end_src
 
-** Embark
+** Embark & Consult
 
 #+begin_src emacs-lisp
 (when fw/is-linux
@@ -392,6 +392,9 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
   (global-set-key (kbd "M-<apps>") 'embark-act))
 
 (require 'embark-consult)
+
+(when fw/is-windows
+  (setq consult-find-args "find . -not ( -wholename \\*/.\\* -prune )"))
 #+end_src
 
 ** Company
