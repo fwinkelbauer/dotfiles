@@ -444,7 +444,6 @@ with just some minor adjustments:
 
 #+begin_src emacs-lisp
 (set-face-attribute 'org-agenda-structure nil :height 1.25)
-(set-face-attribute 'org-agenda-date-today nil :slant 'normal)
 #+end_src
 
 ** Markdown
