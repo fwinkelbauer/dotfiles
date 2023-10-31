@@ -389,6 +389,44 @@ I don't want to see repeating TODOs in my calendar:
 (setq org-agenda-show-future-repeats nil)
 #+end_src
 
+Adding ~CUSTOM_ID~ to a heading makes it easier to link to it after an HTML
+export. Let's define a few functions to generate a ~CUSTOM_ID~ when the org file
+has the option ~auto-id:t~ set. This snippet is based on several blog posts,
+including [[https://blog.phundrak.com/better-custom-ids-orgmode/][this one]]:
+
+#+begin_src emacs-lisp
+(defun fw/org-custom-id-create ()
+  "Create and store CUSTOM_ID for current heading."
+  (let* ((title (or (nth 4 (org-heading-components)) ""))
+         (custom-id (concat (string-trim-right (replace-regexp-in-string "[^[:alnum:]]+" "-" (downcase title)) "-")
+                            "-"
+                            (format "%03d" (random 1000)))))
+    (org-entry-put nil "CUSTOM_ID" custom-id)
+    custom-id))
+
+(defun fw/org-custom-id-get-create (&optional pom)
+  "Get or create CUSTOM_ID for heading at `pom'."
+  (org-with-point-at pom
+    (let ((custom-id (org-entry-get nil "CUSTOM_ID")))
+      (if (stringp custom-id)
+          custom-id
+        (fw/org-custom-id-create)))))
+
+(defun fw/org-add-ids-to-headlines ()
+  "Add a CUSTOM_ID property to all headlines in the current file
+   which do not already have one. Only adds IDs if the `auto-id'
+   option is set to `t'."
+  (interactive)
+  (save-excursion
+    (widen)
+    (goto-char (point-min))
+    (when (re-search-forward "^#\\+OPTIONS:.*auto-id:t" (point-max) t)
+      (org-map-entries (lambda () (fw/org-custom-id-get-create))))))
+
+(add-hook 'org-mode-hook
+          (lambda () (add-hook 'before-save-hook 'fw/org-add-ids-to-headlines)))
+#+end_src
+
 * Project
 
 Define a set of functions that operate on the default directory or the
