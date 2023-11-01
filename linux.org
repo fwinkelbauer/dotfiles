@@ -16,11 +16,11 @@ sudo apt -y install numix-gtk-theme numix-icon-theme-circle
 sudo apt -y install emacs git keepassxc homebank dotnet6
 sudo apt -y install nvidia-driver-515
 
-sudo ufw enable
-
 sudo snap install signal-desktop
 echo snap >> ~/.hidden
 echo firefix.tmp >> ~/Downloads/.hidden
+
+sudo ufw enable
 
 xfconf-query -c 'xsettings' -p '/Net/ThemeName' -s 'Numix'
 xfconf-query -c 'xsettings' -p '/Net/IconThemeName' -s 'Numix-Circle'
