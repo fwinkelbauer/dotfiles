@@ -274,14 +274,14 @@ And here's some magic code that I have adapted from [[https://emacs.stackexchang
 an agenda item contains text:
 
 #+begin_src emacs-lisp
-(defun org-agenda-delete-property-regions (property value)
+(defun fw/org-agenda-delete-property-regions (property value)
   "Kill all regions where text PROPERTY has VALUE."
   (let ((pos (point-min)))
     (while (setq pos (next-single-property-change pos property))
       (when (eq (get-text-property pos property) value)
         (kill-region pos (next-single-property-change pos property))))))
 
-(defcustom org-agenda-ignore-lines-list
+(defcustom fw/org-agenda-ignore-lines-list
   '(org-scheduled-time-regexp
     "$" ;; empty lines are ignored
     (":PROPERTIES:" . ":END:") ;; property lists are ignored
@@ -298,15 +298,15 @@ or a cons cell with the car being the start regexp and the cdr being the end reg
                  (choice regexp symbol))))
   :group 'org-agenda)
 
-(defsubst org-agenda-count-lines-regexp (matcher)
+(defsubst fw/org-agenda-count-lines-regexp (matcher)
   "If MATCHER is a symbol return its value
 otherwise return MATCHER directly."
   (or (and (symbolp matcher) (symbol-value matcher))
       matcher))
 
-(defun org-agenda-count-lines-looking-at (list)
+(defun fw/org-agenda-count-lines-looking-at (list)
   "A variant of `looking-at'.
-It takes a LIST of form `org-agenda-ignore-lines-list'
+It takes a LIST of form `fw/org-agenda-ignore-lines-list'
 instead of a regular expression and returns the
 matching entry of that list."
   (cl-loop
@@ -315,20 +315,20 @@ matching entry of that list."
    (setq cmp item)
    (when (consp cmp)
      (setq cmp (car cmp)))
-   when (looking-at (org-agenda-count-lines-regexp cmp))
+   when (looking-at (fw/org-agenda-count-lines-regexp cmp))
    return item))
 
-(defun org-agenda-count-lines (&optional b e)
+(defun fw/org-agenda-count-lines (&optional b e)
   "Count lines in the region from B to E.
 If B is a string the lines in that string are counted.
 Whitespace at the beginning of the lines is skipped over.
 Afterwards lines are ignored if they match
-one of the entries in `org-agenda-ignore-lines-list'.
+one of the entries in `fw/org-agenda-ignore-lines-list'.
 B and E default to `point-min' and `point-max', respectively."
   (if (stringp b)
       (with-temp-buffer
         (insert b)
-        (org-agenda-count-lines))
+        (fw/org-agenda-count-lines))
     (unless b (setq b (point-min)))
     (if e
         (save-excursion
@@ -343,9 +343,9 @@ B and E default to `point-min' and `point-max', respectively."
         (while
             (< (point) e)
           (skip-syntax-forward " ")
-          (if (setq match (org-agenda-count-lines-looking-at org-agenda-ignore-lines-list))
+          (if (setq match (fw/org-agenda-count-lines-looking-at fw/org-agenda-ignore-lines-list))
               (when (consp match)
-                (re-search-forward (concat "^ *" (org-agenda-count-lines-regexp (cdr match))) e))
+                (re-search-forward (concat "^ *" (fw/org-agenda-count-lines-regexp (cdr match))) e))
             (cl-incf count))
           (forward-line)))
       count)))
@@ -353,7 +353,7 @@ B and E default to `point-min' and `point-max', respectively."
 (defun org-agenda-add-num-of-contents-lines ()
   "Add number of contents lines for each entry in the agenda buffer."
   ;; Text properties are already added.
-  (org-agenda-delete-property-regions 'org-agenda-num-of-contents-lines t)
+  (fw/org-agenda-delete-property-regions 'org-agenda-num-of-contents-lines t)
   (cl-loop with hd-marker
            for int being the intervals property 'org-hd-marker
            if (setq hd-marker (get-text-property (car int) 'org-hd-marker))
@@ -363,20 +363,20 @@ B and E default to `point-min' and `point-max', respectively."
             (propertize
              (format
               " (%d)"
-              (org-agenda-count-lines (org-agenda-get-some-entry-text hd-marker (buffer-size))))
+              (fw/org-agenda-count-lines (org-agenda-get-some-entry-text hd-marker (buffer-size))))
              'org-agenda-num-of-contents-lines t))))
 
 (defun org-agenda-add-num-of-contents-lines ()
   "Add number of contents lines for each entry in the agenda buffer."
   ;; Text properties are already added.
-  (org-agenda-delete-property-regions 'org-agenda-num-of-contents-lines t)
+  (fw/org-agenda-delete-property-regions 'org-agenda-num-of-contents-lines t)
   (cl-loop with hd-marker
            for int being the intervals property 'org-hd-marker
            if (setq hd-marker (get-text-property (car int) 'org-hd-marker))
            do
            (goto-char (cdr int))
            (insert
-            (if (< 0 (org-agenda-count-lines (org-agenda-get-some-entry-text hd-marker (buffer-size))))
+            (if (< 0 (fw/org-agenda-count-lines (org-agenda-get-some-entry-text hd-marker (buffer-size))))
                 " (*)"
               ""))))
 
@@ -389,47 +389,10 @@ I don't want to see repeating TODOs in my calendar:
 (setq org-agenda-show-future-repeats nil)
 #+end_src
 
-* Project
-
-Define a set of functions that operate on the default directory or the
-project-current directory:
+* Known File Extensions
 
 #+begin_src emacs-lisp
-(defun fw/project-current-or-default ()
-  "Returns `project-current' or `default-directory'."
-  (expand-file-name
-   (if (project-current)
-       (cdr (project-current))
-     default-directory)))
-
-(defun fw/native-file-manager ()
-  "Opens the OS native file manager in `fw/project-current-or-default'."
-  (interactive)
-  (when fw/is-linux
-    (call-process "xdg-open" nil 0 nil (fw/project-current-or-default)))
-  (when fw/is-windows
-    (w32-shell-execute "open" (fw/project-current-or-default))))
-
-(defun fw/find-file ()
-  "Finds files in `fw/project-current-or-default'."
-  (interactive)
-  (if (project-current)
-      (project-find-file)
-    (consult-find)))
-
-(defun fw/compile ()
-  "Run `compile' in `fw/project-current-or-default'."
-  (interactive)
-  (let ((default-directory (fw/project-current-or-default))
-        (compilation-scroll-output t))
-    (call-interactively #'compile)))
-
-(defun fw/recompile ()
-  "Run `recompile' in `fw/project-current-or-default'."
-  (interactive)
-  (let ((default-directory (fw/project-current-or-default))
-        (compilation-scroll-output t))
-    (call-interactively #'recompile)))
+(add-to-list 'auto-mode-alist '("\\.editorconfig\\'" . conf-mode))
 #+end_src
 
 * External Packages
@@ -563,7 +526,6 @@ Define a function to make my org-agenda pretty. Based on [[https://old.reddit.co
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.props\\'" . nxml-mode))
-(add-to-list 'auto-mode-alist '("\\.editorconfig\\'" . conf-mode))
 #+end_src
 
 ** Compilation
@@ -618,6 +580,13 @@ transients and the apps/menu key:
   (split-window-horizontally)
   (other-window 1))
 
+(defun fw/find-file ()
+  "Find files in current project or directory."
+  (interactive)
+  (if (project-current)
+      (project-find-file)
+    (consult-find)))
+
 (transient-define-prefix fw/transient-main ()
   "fw/transient-main"
   [["Search"
@@ -656,12 +625,7 @@ transients and the apps/menu key:
     ("g" "Status" magit-status)
     ("o" "Open repository" fw/prefix-magit-status)
     ("d" "Dispatch" magit-dispatch)
-    ("f" "File dispatch" magit-file-dispatch)]
-
-   ["Project"
-    ("e" "File manager" fw/native-file-manager)
-    ("c" "Compile" fw/compile)
-    ("r" "Recompile" fw/recompile)]])
+    ("f" "File dispatch" magit-file-dispatch)]])
 
 (transient-define-prefix fw/transient-org ()
   "fw/transient-org"
