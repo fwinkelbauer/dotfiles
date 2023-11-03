@@ -393,6 +393,8 @@ I don't want to see repeating TODOs in my calendar:
 
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.editorconfig\\'" . conf-mode))
+(add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.props\\'" . nxml-mode))
 #+end_src
 
 * External Packages
@@ -519,13 +521,6 @@ Define a function to make my org-agenda pretty. Based on [[https://old.reddit.co
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.psm1\\'" . powershell-mode))
 (add-to-list 'auto-mode-alist '("\\.psd1\\'" . powershell-mode))
-#+end_src
-
-** C Sharp
-
-#+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
-(add-to-list 'auto-mode-alist '("\\.props\\'" . nxml-mode))
 #+end_src
 
 ** Compilation
