@@ -478,6 +478,20 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
 
 (when fw/is-windows
   (setq consult-find-args "find . -not ( -wholename \\*/.\\* -prune )"))
+
+(defun fw/find-file ()
+  "Find files in current project or directory."
+  (interactive)
+  (if (project-current)
+      (project-find-file)
+    (consult-find)))
+
+(defun fw/grep ()
+  "Run grep in current project or directory."
+  (interactive)
+  (if (project-current)
+      (consult-git-grep)
+    (consult-grep)))
 #+end_src
 
 ** Company
@@ -579,20 +593,6 @@ transients and the apps/menu key:
   (interactive)
   (split-window-horizontally)
   (other-window 1))
-
-(defun fw/find-file ()
-  "Find files in current project or directory."
-  (interactive)
-  (if (project-current)
-      (project-find-file)
-    (consult-find)))
-
-(defun fw/grep ()
-  "Run grep in current project or directory."
-  (interactive)
-  (if (project-current)
-      (consult-git-grep)
-    (consult-grep)))
 
 (transient-define-prefix fw/transient-main ()
   "fw/transient-main"
