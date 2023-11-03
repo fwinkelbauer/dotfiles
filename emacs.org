@@ -582,13 +582,20 @@ transients and the apps/menu key:
       (project-find-file)
     (consult-find)))
 
+(defun fw/grep ()
+  "Run grep in current project or directory."
+  (interactive)
+  (if (project-current)
+      (consult-git-grep)
+    (consult-grep)))
+
 (transient-define-prefix fw/transient-main ()
   "fw/transient-main"
   [["Search"
     ("f" "Find file" find-file)
     ("F" "Find file recursive" fw/find-file)
     ("s" "Search buffer" consult-line)
-    ("S" "Search directory" consult-grep)
+    ("S" "Search directory" fw/grep)
     ("j" "Goto line" consult-goto-line)]
 
    ["Buffer"
