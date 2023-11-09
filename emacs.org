@@ -495,6 +495,11 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
   (if (project-current)
       (consult-git-grep)
     (consult-grep)))
+
+(defun fw/open-directory-externally ()
+  (interactive)
+  "Open the `default-directory' using the system default application"
+  (embark-open-externally default-directory))
 #+end_src
 
 ** Company
@@ -610,7 +615,8 @@ transients and the apps/menu key:
     ("w" "Save buffer" fw/save)
     ("k" "Kill buffer" kill-this-buffer)
     ("b" "Switch buffer" consult-buffer)
-    ("h" "Mark all" mark-whole-buffer)]
+    ("h" "Mark all" mark-whole-buffer)
+    ("d" "Open directory" fw/open-directory-externally)]
 
    ["Window"
     ("0" "Delete window" delete-window)
