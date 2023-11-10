@@ -478,9 +478,6 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
 
 (require 'embark-consult)
 
-(when fw/is-windows
-  (setq consult-find-args "find . -not ( -wholename \\*/.\\* -prune )"))
-
 (defun fw/find-file ()
   "Find files in current project or directory."
   (interactive)
