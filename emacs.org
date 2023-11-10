@@ -458,7 +458,6 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
 #+begin_src emacs-lisp
 (vertico-mode)
 
-(customize-set-variable 'vertico-cycle t)
 (define-key vertico-map "\r" #'vertico-directory-enter)
 (define-key vertico-map "\d" #'vertico-directory-delete-char)
 
