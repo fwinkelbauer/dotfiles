@@ -58,7 +58,7 @@ Increase the garbage collection threshold:
 (setq gc-cons-threshold 20000000)
 #+end_src
 
-Always start in fullscreen:
+Always start in full screen:
 
 #+begin_src emacs-lisp
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -511,7 +511,7 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
 #+end_src
 
 The dabbrev backend has some inconvenient default settings (e.g. its suggestions
-get downcased, even if notations such as camel casing are used):
+get down cased, even if notations such as camel casing are used):
 
 #+begin_src emacs-lisp
 (setq company-dabbrev-downcase nil
