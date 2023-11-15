@@ -108,12 +108,6 @@ davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer 
 (find-file org-default-notes-file)
 #+end_src
 
-#+begin_src emacs-lisp :tangle "~/Projects/.dir-locals.el"
-((markdown-mode .
-                ((eval . (flyspell-mode))
-                 (eval . (flyspell-buffer)))))
-#+end_src
-
 ** Git
 
 #+begin_src conf :tangle "~/.config/git/config"
