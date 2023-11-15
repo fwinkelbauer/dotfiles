@@ -49,7 +49,6 @@ git clone git@github.com:fwinkelbauer/fwinkelbauer.github.io.git ~/Projects/webs
       org-default-notes-file (concat org-directory "inbox.org")
       org-agenda-files (list org-directory)
       org-deadline-warning-days 30
-      elfeed-db-directory "~/Documents/archive/elfeed/"
       browse-url-browser-function 'browse-url-firefox
       browse-url-firefox-arguments '("-private-window"))
 
@@ -57,9 +56,7 @@ git clone git@github.com:fwinkelbauer/fwinkelbauer.github.io.git ~/Projects/webs
       '(("https://www.youtube.com/feeds/videos.xml?channel_id=UCTdw38Cw6jcm0atBPA39a0Q" conference) ; NDC
         ("https://www.youtube.com/feeds/videos.xml?channel_id=UC3PGn-hQdbtRiqxZK9XBGqQ" conference) ; DDD Europe
         ("https://www.youtube.com/feeds/videos.xml?user=MarakanaTechTV" conference) ; InfoQ
-        ("https://www.youtube.com/feeds/videos.xml?user=GotoConferences" conference)
-        ("https://hnrss.org/frontpage?link=comments&points=50" news)
-        ("https://hnrss.org/ask?link=comments&points=50" news)))
+        ("https://www.youtube.com/feeds/videos.xml?user=GotoConferences" conference)))
 
 (setq magit-repository-directories
       '(("~/.config/emacs/" . 0)
@@ -73,13 +70,6 @@ git clone git@github.com:fwinkelbauer/fwinkelbauer.github.io.git ~/Projects/webs
             (fw/org-agenda-category-icon "Frist" "nf-md-shield_alert")
             (fw/org-agenda-category-icon "Aufgabe" "nf-md-file_document_outline")
             (fw/org-agenda-category-icon "Wiederh" "nf-md-update")))
-
-(defun fw/elfeed-db-compact ()
-  "Runs `elfeed-db-compact' if uncompressed entries exist"
-  (interactive)
-  (require 'elfeed)
-  (when (< 3 (length (directory-files-recursively elfeed-db-directory ".*")))
-    (elfeed-db-compact)))
 
 (find-file org-default-notes-file)
 #+end_src
@@ -162,8 +152,6 @@ davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer 
 
 #+begin_src sh :tangle "~/.local/bin/my-store" :shebang "#!/bin/bash"
 set -euo pipefail
-
-emacs -l ~/.config/emacs/init.el --batch --eval '(fw/elfeed-db-compact)' 2>/dev/null
 
 local=~/.chunkyard
 
