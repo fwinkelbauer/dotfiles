@@ -238,8 +238,6 @@ Setup org-capture:
 Basic agenda configuration with a custom agenda view:
 
 #+begin_src emacs-lisp
-(setq org-agenda-skip-scheduled-if-done t)
-
 (setq org-agenda-custom-commands
       '(("." "Overview"
          ((agenda ""
@@ -251,6 +249,7 @@ Basic agenda configuration with a custom agenda view:
                                            " ....."
                                            "----------------"))
                    (org-agenda-time-leading-zero t)
+                   (org-agenda-show-future-repeats nil)
                    (org-agenda-current-time-string "****************")
                    (org-agenda-scheduled-leaders '("" ""))))
           (todo ""
@@ -380,12 +379,6 @@ B and E default to `point-min' and `point-max', respectively."
               ""))))
 
 (add-hook 'org-agenda-finalize-hook #'org-agenda-add-num-of-contents-lines)
-#+end_src
-
-I don't want to see repeating TODOs in my calendar:
-
-#+begin_src emacs-lisp
-(setq org-agenda-show-future-repeats nil)
 #+end_src
 
 * Known File Extensions
