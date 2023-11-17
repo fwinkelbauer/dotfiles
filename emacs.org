@@ -52,12 +52,6 @@ Hide startup message and show an empty scratch buffer:
       initial-scratch-message nil)
 #+end_src
 
-Increase the garbage collection threshold:
-
-#+begin_src emacs-lisp
-(setq gc-cons-threshold 20000000)
-#+end_src
-
 Always start in full screen:
 
 #+begin_src emacs-lisp
