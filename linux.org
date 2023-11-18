@@ -104,8 +104,6 @@ davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer 
             (fw/org-agenda-category-icon "Frist" "nf-md-shield_alert")
             (fw/org-agenda-category-icon "Aufgabe" "nf-md-file_document_outline")
             (fw/org-agenda-category-icon "Wiederh" "nf-md-update")))
-
-(find-file org-default-notes-file)
 #+end_src
 
 ** Git
@@ -151,11 +149,7 @@ directories=(
     ~/Videos
 )
 
-includes=(
-    '!\~$'
-)
-
-chunkyard store --repository "$local" --paths "${directories[@]}" --includes "${includes[@]}" --prompt 'Libsecret' --parallel '4' "$@"
+chunkyard store --repository "$local" --paths "${directories[@]}" --includes '!\~$' --prompt 'Libsecret' --parallel '4' "$@"
 #+end_src
 
 #+begin_src sh :tangle "~/.local/bin/my-restore" :shebang "#!/bin/bash"
