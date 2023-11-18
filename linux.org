@@ -104,6 +104,14 @@ davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer 
             (fw/org-agenda-category-icon "Frist" "nf-md-shield_alert")
             (fw/org-agenda-category-icon "Aufgabe" "nf-md-file_document_outline")
             (fw/org-agenda-category-icon "Wiederh" "nf-md-update")))
+
+(set-face-attribute 'default nil
+                    :family "Roboto Mono"
+                    :foundry "GOOG"
+                    :slant 'normal
+                    :weight 'medium
+                    :height 120
+                    :width 'normal)
 #+end_src
 
 ** Git
