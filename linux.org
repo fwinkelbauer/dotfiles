@@ -25,9 +25,6 @@ xfconf-query -c 'xsettings' -p '/Net/IconThemeName' -s 'Numix-Circle'
 xfconf-query -c 'xfwm4' -p '/general/theme' -s 'Numix'
 xfconf-query -c 'xfwm4' -p '/general/placement_ratio' -s 100
 xfconf-query -c 'xfce4-keyboard-shortcuts' -p '/commands/custom/<Super>e' -s 'emacs'
-xfconf-query -c 'xfce4-panel' -p '/panels/panel-0/position' -s 'p=8;x=960;y=1067'
-xfconf-query -c 'xfce4-panel' -p '/panels/panel-0/size' -s '32'
-xfconf-query -c 'xfce4-screensaver' -p '/saver/idle-activation/delay' -s 15
 xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-home' -s 'false'
 xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-trash' -s 'false'
 xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-filesystem' -s 'false'
