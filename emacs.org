@@ -10,14 +10,14 @@ Make sure that we are running a newer version of Emacs:
   (error "Unsupported version of Emacs"))
 #+end_src
 
-* OS Detection
+* General
+
+OS detection:
 
 #+begin_src emacs-lisp
 (setq fw/is-linux (eq system-type 'gnu/linux)
       fw/is-windows (eq system-type 'windows-nt))
 #+end_src
-
-* General
 
 Simplify confirmation:
 
@@ -65,6 +65,18 @@ Start Emacs in server mode:
 (unless (server-running-p) (server-start))
 #+end_src
 
+Hide toolbar:
+
+#+begin_src emacs-lisp
+(tool-bar-mode 0)
+#+end_src
+
+Enable column numbers:
+
+#+begin_src emacs-lisp
+(setq column-number-mode t)
+#+end_src
+
 * Text
 
 Prefer UTF-8:
@@ -109,20 +121,6 @@ Use single space after a sentence:
 
 #+begin_src emacs-lisp
 (setq sentence-end-double-space nil)
-#+end_src
-
-* Styling
-
-Hide toolbar:
-
-#+begin_src emacs-lisp
-(tool-bar-mode 0)
-#+end_src
-
-Enable column numbers:
-
-#+begin_src emacs-lisp
-(setq column-number-mode t)
 #+end_src
 
 * Org
