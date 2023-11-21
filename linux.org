@@ -58,6 +58,11 @@ Path=
 StartupNotify=false
 #+end_src
 
+#+begin_src conf :tangle "~/.local/share/applications/emacsclient.desktop"
+[Desktop Entry]
+Hidden=true
+#+end_src
+
 #+begin_src conf :tangle "~/.local/share/applications/emacs-term.desktop"
 [Desktop Entry]
 Hidden=true
