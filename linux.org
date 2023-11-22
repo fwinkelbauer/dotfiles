@@ -114,6 +114,8 @@ davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer 
                     :weight 'medium
                     :height 120
                     :width 'normal)
+
+(find-file org-default-notes-file)
 #+end_src
 
 ** Git
