@@ -52,20 +52,9 @@ Icon=emacs
 Type=Application
 Terminal=false
 Categories=Utility;Development;TextEditor;
+StartupNotify=true
 StartupWMClass=Emacs
 Keywords=Text;Editor;
-Path=
-StartupNotify=false
-#+end_src
-
-#+begin_src conf :tangle "~/.local/share/applications/emacsclient.desktop"
-[Desktop Entry]
-Hidden=true
-#+end_src
-
-#+begin_src conf :tangle "~/.local/share/applications/emacs-term.desktop"
-[Desktop Entry]
-Hidden=true
 #+end_src
 
 #+begin_src fundamental :tangle "~/.config/gtk-3.0/bookmarks"
