@@ -447,12 +447,6 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
 #+begin_src emacs-lisp
 (setq prefix-help-command #'embark-prefix-help-command)
 
-(when fw/is-linux
-  (global-set-key (kbd "M-<menu>") 'embark-act))
-
-(when fw/is-windows
-  (global-set-key (kbd "M-<apps>") 'embark-act))
-
 (require 'embark-consult)
 
 (defun fw/find-file ()
@@ -603,7 +597,8 @@ transients and the apps/menu key:
     ("e" "Elfeed" elfeed)
     ("o" "Org" fw/transient-org :transient nil)
     ("t" "Text" fw/transient-text :transient nil)
-    ("<return>" "Execute" execute-extended-command)]
+    ("<return>" "Execute" execute-extended-command)
+    ("." "Embark" embark-act)]
 
    ["Quit"
     ("q" "Quit Emacs" save-buffers-kill-terminal)]])
