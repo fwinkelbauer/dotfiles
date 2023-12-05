@@ -5,7 +5,7 @@
 (package-initialize)
 
 (prefer-coding-system 'utf-8)
-(org-babel-load-file (concat user-emacs-directory "emacs.org"))
+(org-babel-load-file (locate-user-emacs-file "emacs.org"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
