@@ -456,6 +456,7 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
 
 #+begin_src emacs-lisp
 (setq prefix-help-command #'embark-prefix-help-command)
+(keymap-global-set "<remap> <describe-bindings>" #'embark-bindings)
 
 (require 'embark-consult)
 
