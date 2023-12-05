@@ -10,6 +10,19 @@ Make sure that we are running a newer version of Emacs:
   (error "Unsupported version of Emacs"))
 #+end_src
 
+* Package Manager
+
+Setup the package manger:
+
+#+begin_src emacs-lisp
+(require 'package)
+
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+
+(package-initialize)
+#+end_src
+
 * General
 
 OS detection:
@@ -62,6 +75,7 @@ Start Emacs in server mode:
 
 #+begin_src emacs-lisp
 (require 'server)
+
 (unless (server-running-p) (server-start))
 #+end_src
 
@@ -397,6 +411,7 @@ with just some minor adjustments:
 #+begin_src emacs-lisp
 (require 'nerd-icons)
 (require 'nerd-icons-dired)
+
 (add-hook 'dired-mode-hook #'nerd-icons-dired-mode)
 
 (add-hook 'dired-mode-hook #'dired-hide-details-mode)
@@ -447,6 +462,7 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
 (define-key vertico-map "\d" #'vertico-directory-delete-char)
 
 (require 'orderless)
+
 (setq completion-styles '(orderless basic)
       completion-category-defaults nil
       completion-category-overrides '((file (styles partial-completion))))
