@@ -392,6 +392,16 @@ with just some minor adjustments:
 (set-face-attribute 'org-agenda-date-today nil :slant 'normal)
 #+end_src
 
+** Dired
+
+#+begin_src emacs-lisp
+(require 'nerd-icons)
+(require 'nerd-icons-dired)
+(add-hook 'dired-mode-hook #'nerd-icons-dired-mode)
+
+(add-hook 'dired-mode-hook #'dired-hide-details-mode)
+#+end_src
+
 ** Markdown
 
 #+begin_src emacs-lisp
@@ -462,11 +472,6 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
   (if (project-current)
       (consult-git-grep)
     (consult-grep)))
-
-(defun fw/open-directory-externally ()
-  (interactive)
-  "Open the `default-directory' using the system default application"
-  (embark-open-externally default-directory))
 #+end_src
 
 ** Company
@@ -547,6 +552,13 @@ transients and the apps/menu key:
   (interactive)
   (funcall (key-binding (kbd "C-x C-s"))))
 
+(defun fw/dired ()
+  "Runs `dired-jump' or `project-dired'"
+  (interactive)
+  (if (project-current)
+      (project-dired)
+    (dired-jump)))
+
 (defun fw/org-edit ()
   "Runs the keybinding C-c '"
   (interactive)
@@ -583,7 +595,7 @@ transients and the apps/menu key:
     ("k" "Kill buffer" kill-this-buffer)
     ("b" "Switch buffer" consult-buffer)
     ("h" "Mark all" mark-whole-buffer)
-    ("d" "Open directory" fw/open-directory-externally)]
+    ("d" "Open directory" fw/dired)]
 
    ["Window"
     ("0" "Delete window" delete-window)

@@ -13,7 +13,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(embark-consult embark orderless vertico consult powershell doom-modeline company elfeed color-theme-sanityinc-tomorrow markdown-mode magit)))
+   '(nerd-icons-dired embark-consult embark orderless vertico consult powershell doom-modeline company elfeed color-theme-sanityinc-tomorrow markdown-mode magit)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
