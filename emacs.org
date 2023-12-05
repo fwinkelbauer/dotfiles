@@ -620,7 +620,6 @@ transients and the apps/menu key:
   [["Magit"
     ("g" "Status" magit-status)
     ("o" "Open repository" fw/prefix-magit-status)
-    ("d" "Dispatch" magit-dispatch)
     ("f" "File dispatch" magit-file-dispatch)]])
 
 (transient-define-prefix fw/transient-org ()
