@@ -489,6 +489,8 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
   (if (project-current)
       (consult-git-grep)
     (consult-grep)))
+
+(global-set-key (kbd "C-.") 'embark-act)
 #+end_src
 
 ** Company
@@ -627,8 +629,7 @@ transients and the apps/menu key:
     ("e" "Elfeed" elfeed)
     ("o" "Org" fw/transient-org :transient nil)
     ("t" "Text" fw/transient-text :transient nil)
-    ("<return>" "Execute" execute-extended-command)
-    ("." "Embark" embark-act)]
+    ("<return>" "Execute" execute-extended-command)]
 
    ["Quit"
     ("q" "Quit Emacs" save-buffers-kill-terminal)]])
