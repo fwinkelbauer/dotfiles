@@ -6,7 +6,7 @@
 Make sure that we are running a newer version of Emacs:
 
 #+begin_src emacs-lisp
-(when (version< emacs-version "27.1")
+(when (version< emacs-version "29.1")
   (error "Unsupported version of Emacs"))
 #+end_src
 
@@ -89,6 +89,12 @@ Enable column numbers:
 
 #+begin_src emacs-lisp
 (setq column-number-mode t)
+#+end_src
+
+Make scrolling smoother:
+
+#+begin_src emacs-lisp
+(pixel-scroll-precision-mode)
 #+end_src
 
 * Text
