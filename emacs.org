@@ -571,13 +571,6 @@ transients and the apps/menu key:
   (interactive)
   (funcall (key-binding (kbd "C-x C-s"))))
 
-(defun fw/dired ()
-  "Runs `dired-jump' or `project-dired'"
-  (interactive)
-  (if (project-current)
-      (project-dired)
-    (dired-jump)))
-
 (defun fw/org-edit ()
   "Runs the keybinding C-c '"
   (interactive)
@@ -615,7 +608,7 @@ transients and the apps/menu key:
     ("k" "Kill buffer" kill-this-buffer)
     ("b" "Switch buffer" consult-buffer)
     ("h" "Mark all" mark-whole-buffer)
-    ("d" "Open directory" fw/dired)]
+    ("d" "Open directory" dired-jump)]
 
    ["Window"
     ("0" "Delete window" delete-window)
