@@ -411,13 +411,24 @@ with just some minor adjustments:
 (set-face-attribute 'org-agenda-date-today nil :slant 'normal)
 #+end_src
 
-** Nerd Icons Dired
+** Nerd Icons
+
+Make dired pretty:
 
 #+begin_src emacs-lisp
 (require 'nerd-icons)
 (require 'nerd-icons-dired)
 
 (add-hook 'dired-mode-hook #'nerd-icons-dired-mode)
+#+end_src
+
+Define a function to make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hnf3cw/my_orgmode_agenda_much_better_now_with_category/][this reddit post]]:
+
+#+begin_src emacs-lisp
+(defun fw/org-agenda-category-icon (category icon)
+  "Returns an `org-agenda-category-icon-alist' entry using a
+`nerd-icons' icon"
+  `(,category ,(list (nerd-icons-mdicon icon)) nil nil :ascent center))
 #+end_src
 
 ** Markdown
@@ -526,15 +537,6 @@ Do not show method names in the modeline:
 
 #+begin_src emacs-lisp
 (setq which-func-modes nil)
-#+end_src
-
-Define a function to make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hnf3cw/my_orgmode_agenda_much_better_now_with_category/][this reddit post]]:
-
-#+begin_src emacs-lisp
-(defun fw/org-agenda-category-icon (category icon)
-  "Returns an `org-agenda-category-icon-alist' entry using a
-`nerd-icons' icon"
-  `(,category ,(list (nerd-icons-mdicon icon)) nil nil :ascent center))
 #+end_src
 
 ** PowerShell
