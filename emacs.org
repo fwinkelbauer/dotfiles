@@ -25,13 +25,6 @@ Setup the package manger:
 
 * General
 
-OS detection:
-
-#+begin_src emacs-lisp
-(setq fw/is-linux (eq system-type 'gnu/linux)
-      fw/is-windows (eq system-type 'windows-nt))
-#+end_src
-
 Simplify confirmation:
 
 #+begin_src emacs-lisp
@@ -682,10 +675,10 @@ transients and the apps/menu key:
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "<f5>") 'fw/transient-main)
 
-(when fw/is-linux
+(when (eq system-type 'gnu/linux)
   (global-set-key (kbd "<menu>") 'fw/transient-main))
 
-(when fw/is-windows
+(when (eq system-type 'windows-nt)
   (global-set-key (kbd "<apps>") 'fw/transient-main))
 #+end_src
 
