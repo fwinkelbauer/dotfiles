@@ -143,6 +143,12 @@ Use single space after a sentence:
 (setq sentence-end-double-space nil)
 #+end_src
 
+* Dired
+
+#+begin_src emacs-lisp
+(add-hook 'dired-mode-hook #'dired-hide-details-mode)
+#+end_src
+
 * Org
 
 General org configuration:
@@ -412,15 +418,13 @@ with just some minor adjustments:
 (set-face-attribute 'org-agenda-date-today nil :slant 'normal)
 #+end_src
 
-** Dired
+** Nerd Icons Dired
 
 #+begin_src emacs-lisp
 (require 'nerd-icons)
 (require 'nerd-icons-dired)
 
 (add-hook 'dired-mode-hook #'nerd-icons-dired-mode)
-
-(add-hook 'dired-mode-hook #'dired-hide-details-mode)
 #+end_src
 
 ** Markdown
