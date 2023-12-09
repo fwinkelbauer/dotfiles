@@ -165,6 +165,8 @@ set -euo pipefail
 local=~/.chunkyard
 
 directories=(
+    ~/.local/share/fonts
+    ~/.ssh
     ~/Documents
     ~/Music
     ~/Pictures
