@@ -603,9 +603,7 @@ transients and the apps/menu key:
   "fw/transient-main"
   [["Search"
     ("f" "Find file" find-file)
-    ("F" "Find file recursive" fw/find-file)
     ("s" "Search buffer" consult-line)
-    ("S" "Search directory" fw/grep)
     ("r" "Replace" query-replace)
     ("j" "Goto line" consult-goto-line)]
 
@@ -636,9 +634,11 @@ transients and the apps/menu key:
 (transient-define-prefix fw/transient-project ()
   "fw/transient-project"
   [["Magit"
+    ("f" "Find file recursive" fw/find-file)
+    ("s" "Search recursive" fw/grep)
     ("g" "Status" magit-status)
     ("o" "Open repository" fw/prefix-magit-status)
-    ("f" "File dispatch" magit-file-dispatch)]])
+    ("i" "File dispatch" magit-file-dispatch)]])
 
 (transient-define-prefix fw/transient-org ()
   "fw/transient-org"
@@ -650,9 +650,9 @@ transients and the apps/menu key:
     ("s" "Schedule" org-schedule)
     ("d" "Deadline" org-deadline)
     ("." "Timestamp" org-time-stamp)
-    ("#" "Template" org-insert-structure-template)
-    ("b" "Source" fw/org-edit)
-    ("B" "Babel" org-babel-tangle)]])
+    ("m" "Template" org-insert-structure-template)
+    ("e" "Source" fw/org-edit)
+    ("b" "Babel" org-babel-tangle)]])
 
 (transient-define-prefix fw/transient-text ()
   "fw/transient-text"
@@ -668,7 +668,7 @@ transients and the apps/menu key:
 
    ["Rectangle"
     ("r" "Mark" rectangle-mark-mode)
-    ("i" "Insert" string-rectangle)
+    ("t" "Insert" string-rectangle)
     ("d" "Delete" delete-rectangle)]
 
    ["Other"
