@@ -207,7 +207,6 @@ remotes=(
 
 echo "Cleaning up: $local"
 chunkyard keep --repository "$local" --latest '12' --prompt 'Libsecret'
-chunkyard gc --repository "$local" --prompt 'Libsecret'
 
 for remote in "${remotes[@]}"; do
     if [ -d "$remote" ]; then
@@ -219,7 +218,6 @@ for remote in "${remotes[@]}"; do
 
         echo "Cleaning up: $remote"
         chunkyard keep --repository "$remote" --latest '12' --prompt 'Libsecret'
-        chunkyard gc --repository "$remote" --prompt 'Libsecret'
     fi
 done
 #+end_src
