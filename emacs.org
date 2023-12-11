@@ -657,7 +657,7 @@ transients and the apps/menu key:
 (transient-define-prefix fw/transient-text ()
   "fw/transient-text"
   [["Spelling"
-    ("t" "Check word" ispell-word)
+    ("i" "Check word" ispell-word)
     ("f" "Flyspell mode" flyspell-mode)
     ("b" "Flyspell buffer" flyspell-buffer)]
 
