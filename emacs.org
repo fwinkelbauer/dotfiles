@@ -388,6 +388,22 @@ B and E default to `point-min' and `point-max', respectively."
 (add-hook 'org-agenda-finalize-hook #'org-agenda-add-num-of-contents-lines)
 #+end_src
 
+* TRAMP
+
+Tramp Mode is also useful if you want to visit a local file with higher
+privileges:
+
+#+begin_src emacs-lisp
+(defun fw/sudo ()
+  "Use TRAMP to open a local buffer as `sudo'"
+  (interactive)
+  (let ((tramp-file-name
+         (expand-file-name (or buffer-file-name default-directory))))
+    (if (file-remote-p tramp-file-name)
+        (error (concat "Remote path not supported: " tramp-file-name))
+      (find-alternate-file (concat "/sudo::" tramp-file-name)))))
+#+end_src
+
 * Known File Extensions
 
 #+begin_src emacs-lisp
