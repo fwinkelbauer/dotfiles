@@ -75,8 +75,7 @@ davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer 
 (setq default-directory "~/Documents/org/"
       org-directory default-directory
       org-default-notes-file (concat org-directory "inbox.org")
-      org-agenda-files (list org-directory)
-      org-deadline-warning-days 30)
+      org-agenda-files (list org-directory))
 
 (setq browse-url-browser-function 'browse-url-firefox
       browse-url-firefox-arguments '("-private-window"))
