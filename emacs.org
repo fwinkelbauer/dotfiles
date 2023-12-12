@@ -616,6 +616,11 @@ transients and the apps/menu key:
   (split-window-horizontally)
   (other-window 1))
 
+(defun fw/highlight-thing-at-point ()
+  "Highlight thing-at-point"
+  (interactive)
+  (highlight-regexp (regexp-quote (thing-at-point 'symbol))))
+
 (transient-define-prefix fw/transient-main ()
   "fw/transient-main"
   [["Search"
@@ -679,7 +684,7 @@ transients and the apps/menu key:
     ("b" "Flyspell buffer" flyspell-buffer)]
 
    ["Highlight"
-    ("." "Point" highlight-symbol-at-point)
+    ("." "Point" fw/highlight-thing-at-point)
     ("h" "Regex" highlight-regexp)
     ("c" "Clear" fw/unhiglight-all)]
 
