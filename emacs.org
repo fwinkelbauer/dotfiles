@@ -643,7 +643,7 @@ transients and the apps/menu key:
     ("e" "Elfeed" elfeed)
     ("o" "Org" fw/transient-org :transient nil)
     ("t" "Text" fw/transient-text :transient nil)
-    ("<return>" "Execute" execute-extended-command)]
+    ("RET" "Execute" execute-extended-command)]
 
    ["Quit"
     ("q" "Quit Emacs" save-buffers-kill-terminal)]])
@@ -684,7 +684,7 @@ transients and the apps/menu key:
     ("c" "Clear" fw/unhiglight-all)]
 
    ["Rectangle"
-    ("r" "Mark" rectangle-mark-mode)
+    ("SPC" "Mark" rectangle-mark-mode)
     ("t" "Insert" string-rectangle)
     ("d" "Delete" delete-rectangle)]
 
