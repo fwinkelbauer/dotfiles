@@ -33,8 +33,6 @@ xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-removable' -s
 mkdir -p ~/.local/bin
 . ~/.profile
 
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/*
 git clone git@github.com:fwinkelbauer/dotfiles.git ~/.config/emacs
 git clone git@github.com:fwinkelbauer/fwinkelbauer.github.io.git ~/Projects/website
 #+end_src
@@ -193,6 +191,9 @@ set -euo pipefail
 local=~/.chunkyard
 
 chunkyard restore --repository "$local" --directory ~ --prompt 'Libsecret' --parallel '4' "$@"
+
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/*
 #+end_src
 
 #+begin_src sh :tangle "~/.local/bin/my-copy" :shebang "#!/bin/bash"
