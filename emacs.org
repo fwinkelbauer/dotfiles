@@ -655,12 +655,12 @@ transients and the apps/menu key:
 
 (transient-define-prefix fw/transient-project ()
   "fw/transient-project"
-  [["Magit"
+  [["Project"
     ("f" "Find file recursive" fw/find-file)
     ("s" "Search recursive" fw/grep)
-    ("g" "Status" magit-status)
-    ("o" "Open repository" fw/prefix-magit-status)
-    ("i" "File dispatch" magit-file-dispatch)]])
+    ("g" "Magit" magit-status)
+    ("o" "Magit other" fw/prefix-magit-status)
+    ("i" "Magit file" magit-file-dispatch)]])
 
 (transient-define-prefix fw/transient-org ()
   "fw/transient-org"
