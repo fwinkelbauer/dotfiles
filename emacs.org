@@ -35,6 +35,8 @@ Reload a file if it changed on disk:
 
 #+begin_src emacs-lisp
 (global-auto-revert-mode t)
+
+(setq global-auto-revert-non-file-buffers t)
 #+end_src
 
 Disable backup, auto save and lock files:
@@ -140,6 +142,14 @@ Use single space after a sentence:
 
 #+begin_src emacs-lisp
 (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+
+(setq dired-auto-revert-buffer t)
+#+end_src
+
+* Eshell
+
+#+begin_src emacs-lisp
+(setq eshell-scroll-to-bottom-on-input t)
 #+end_src
 
 * Org
@@ -462,7 +472,8 @@ Define a function to make my org-agenda pretty. Based on [[https://old.reddit.co
 #+begin_src emacs-lisp
 (setq git-commit-summary-max-length 50
       git-commit-fill-column 72
-      magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1)
+      magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1
+      magit-save-repository-buffers 'dontask)
 #+end_src
 
 I'd like to spellcheck my commit messages:
