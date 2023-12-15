@@ -16,7 +16,6 @@ sudo apt -y install numix-gtk-theme numix-icon-theme-circle
 sudo apt -y install emacs git keepassxc homebank
 sudo apt -y install nvidia-driver-535
 
-sudo snap install signal-desktop
 echo snap >> ~/.hidden
 echo firefix.tmp >> ~/Downloads/.hidden
 
@@ -148,9 +147,6 @@ davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer 
 
 [push]
   followTags = true
-
-[pull]
-  rebase = true
 
 [merge]
   conflictStyle = diff3
