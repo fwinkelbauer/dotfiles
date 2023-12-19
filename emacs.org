@@ -28,14 +28,13 @@ Setup the package manger:
 Simplify confirmation:
 
 #+begin_src emacs-lisp
-(fset 'yes-or-no-p 'y-or-n-p)
+(setq use-short-answers t)
 #+end_src
 
 Reload a file if it changed on disk:
 
 #+begin_src emacs-lisp
 (global-auto-revert-mode t)
-
 (setq global-auto-revert-non-file-buffers t)
 #+end_src
 
@@ -70,7 +69,6 @@ Start Emacs in server mode:
 
 #+begin_src emacs-lisp
 (require 'server)
-
 (unless (server-running-p) (server-start))
 #+end_src
 
@@ -142,14 +140,7 @@ Use single space after a sentence:
 
 #+begin_src emacs-lisp
 (add-hook 'dired-mode-hook #'dired-hide-details-mode)
-
 (setq dired-auto-revert-buffer t)
-#+end_src
-
-* Eshell
-
-#+begin_src emacs-lisp
-(setq eshell-scroll-to-bottom-on-input t)
 #+end_src
 
 * Org
@@ -157,11 +148,7 @@ Use single space after a sentence:
 General org configuration:
 
 #+begin_src emacs-lisp
-(require 'org)
-
-(setq org-catch-invisible-edits 'smart
-      org-log-into-drawer t
-      org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)"))
+(setq org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)"))
       org-todo-keyword-faces '(("WAIT" . "orange")))
 
 (set-language-environment "German")
@@ -173,8 +160,7 @@ General org configuration:
 Improve org's source code blocks:
 
 #+begin_src emacs-lisp
-(setq org-src-tab-acts-natively t
-      org-src-window-setup 'current-window
+(setq org-src-window-setup 'current-window
       org-edit-src-content-indentation 0)
 #+end_src
 
@@ -332,7 +318,6 @@ Make dired pretty:
 #+begin_src emacs-lisp
 (require 'nerd-icons)
 (require 'nerd-icons-dired)
-
 (add-hook 'dired-mode-hook #'nerd-icons-dired-mode)
 #+end_src
 
@@ -348,9 +333,7 @@ Define a function to make my org-agenda pretty. Based on [[https://old.reddit.co
 ** Markdown
 
 #+begin_src emacs-lisp
-(autoload 'gfm-mode "markdown-mode"
-  "Major mode for editing GitHub Flavored Markdown files" t)
-
+(autoload 'gfm-mode "markdown-mode" "Major mode for editing GitHub Flavored Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 #+end_src
 
@@ -497,6 +480,11 @@ transients and the apps/menu key:
   (interactive)
   (funcall (key-binding (kbd "C-c '"))))
 
+(defun fw/highlight-thing-at-point ()
+  "Highlight thing-at-point"
+  (interactive)
+  (highlight-regexp (regexp-quote (thing-at-point 'symbol))))
+
 (defun fw/unhiglight-all ()
   "Remove all hi-lock highlighting"
   (interactive)
@@ -513,11 +501,6 @@ transients and the apps/menu key:
   (interactive)
   (split-window-horizontally)
   (other-window 1))
-
-(defun fw/highlight-thing-at-point ()
-  "Highlight thing-at-point"
-  (interactive)
-  (highlight-regexp (regexp-quote (thing-at-point 'symbol))))
 
 (transient-define-prefix fw/transient-main ()
   "fw/transient-main"
