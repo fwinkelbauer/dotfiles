@@ -140,7 +140,8 @@ Use single space after a sentence:
 
 #+begin_src emacs-lisp
 (add-hook 'dired-mode-hook #'dired-hide-details-mode)
-(setq dired-auto-revert-buffer t)
+(setq dired-auto-revert-buffer t
+      dired-listing-switches "-al --group-directories-first")
 #+end_src
 
 * Org
