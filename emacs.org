@@ -165,13 +165,10 @@ Improve org's source code blocks:
       org-edit-src-content-indentation 0)
 #+end_src
 
-The calendar should use my native language. The ~calendar-set-date-style~ line
-changes the date format in ~%%(diary.anniversary ...)~:
+The calendar should use my native language and know about my holidays:
 
 #+begin_src emacs-lisp
 (require 'calendar)
-
-(calendar-set-date-style 'iso)
 
 (setq calendar-week-start-day 1
       calendar-day-name-array ["Sonntag" "Montag" "Dienstag" "Mittwoch"
@@ -196,11 +193,7 @@ changes the date format in ~%%(diary.anniversary ...)~:
                             ("dienstag" . 2) ("mittwoch" . 3)
                             ("donnerstag" . 4) ("freitag" . 5)
                             ("samstag" . 6)))
-#+end_src
 
-I've found this snippet of Austrian holidays in [[https://github.com/novoid/dot-emacs/blob/master/config.org][Karl Voit's configuration]]:
-
-#+begin_src emacs-lisp
 (setq holiday-local-holidays
       '((holiday-fixed  1  1 "Neujahr (frei)")
         (holiday-fixed  1  6 "Heilige Drei Könige (frei)")
