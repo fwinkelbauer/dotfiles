@@ -169,7 +169,12 @@ directories=(
     ~/Videos
 )
 
-chunkyard store --repository "$local" --paths "${directories[@]}" --includes '!\~$' --prompt 'Libsecret' --parallel '4' "$@"
+includes=(
+    '!\~$'
+    '!.uuid$'
+)
+
+chunkyard store --repository "$local" --paths "${directories[@]}" --includes "${includes[@]}" --prompt 'Libsecret' --parallel '4' "$@"
 #+end_src
 
 #+begin_src sh :tangle "~/.local/bin/my-restore" :shebang "#!/bin/bash"
