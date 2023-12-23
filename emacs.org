@@ -359,6 +359,16 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
   (call-interactively 'magit-status))
 #+end_src
 
+~with-editor~ suggests these settings:
+
+#+begin_src emacs-lisp
+(shell-command-with-editor-mode)
+(add-hook 'shell-mode-hook  #'with-editor-export-editor)
+(add-hook 'eshell-mode-hook #'with-editor-export-editor)
+(add-hook 'term-exec-hook   #'with-editor-export-editor)
+(add-hook 'vterm-mode-hook  #'with-editor-export-editor)
+#+end_src
+
 ** Vertico & Orderless
 
 #+begin_src emacs-lisp
