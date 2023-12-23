@@ -417,6 +417,16 @@ get down cased, even if notations such as camel casing are used):
       company-dabbrev-ignore-case nil)
 #+end_src
 
+Deactivate company-mode when using tramp:
+
+#+begin_src emacs-lisp
+(defun fw/remote-shell-no-company ()
+  (when (file-remote-p default-directory)
+    (company-mode -1)))
+
+(add-hook 'shell-mode-hook 'fw/remote-shell-no-company)
+#+end_src
+
 ** Doom Modeline
 
 #+begin_src emacs-lisp
