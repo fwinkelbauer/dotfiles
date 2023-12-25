@@ -230,11 +230,35 @@ rm "$input"
 
 ** Updates
 
-#+begin_src sh :tangle "~/.local/bin/my-upgrade" :shebang "#!/bin/bash"
-set -euo pipefail
+This script is written in Python so that it can update itself while its running.
+Doing the same thing in bash has weird consequences:
 
-sudo apt update
-sudo apt upgrade -y
-sudo apt auto-remove -y
-sudo snap refresh
+#+begin_src python :tangle "~/.local/bin/my-upgrade" :shebang "#!/bin/python3"
+import subprocess
+import os
+
+
+def announce(msg):
+    print()
+    print(msg)
+    print("========================================")
+
+
+def run(args, cwd=None):
+    subprocess.run(args, check=True, cwd=cwd)
+
+
+def main():
+    announce("Install updates")
+    run(["sudo", "apt", "update"])
+    run(["sudo", "apt", "upgrade", "-y"])
+    run(["sudo", "apt", "auto-remove", "-y"])
+    run(["sudo", "snap", "refresh"])
+    announce("Update dotfiles")
+    run(["git", "pull"], os.path.expanduser('~/.config/emacs'))
+    run(["emacs", "-Q", "--batch", "-l", "org", "--eval", "(org-babel-tangle-file \"~/.config/emacs/linux.org\")"])
+
+
+if __name__ == '__main__':
+    main()
 #+end_src
