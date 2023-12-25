@@ -31,8 +31,12 @@ xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-removable' -s
 
 mkdir -p ~/.local/bin && . ~/.profile
 
+# After backup restore
 git clone git@github.com:fwinkelbauer/dotfiles.git ~/.config/emacs
 git clone git@github.com:fwinkelbauer/fwinkelbauer.github.io.git ~/Projects/website
+
+# Disable apport
+sudo emacs /etc/default/apport
 #+end_src
 
 
