@@ -256,7 +256,7 @@ def main():
     run(["sudo", "snap", "refresh"])
     announce("Update dotfiles")
     run(["git", "pull"], os.path.expanduser('~/.config/emacs'))
-    run(["emacs", "-Q", "--batch", "-l", "org", "--eval", "(org-babel-tangle-file \"~/.config/emacs/linux.org\")"])
+    run(["emacs", "-Q", "--batch", "-l", "org", "--eval", '(org-babel-tangle-file "~/.config/emacs/linux.org")'])
 
 
 if __name__ == '__main__':
