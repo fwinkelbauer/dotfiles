@@ -589,21 +589,32 @@ make sure that all packages are compiled:
    ["Other"
     ("w" "Whitespace mode" whitespace-mode)
     ("y" "Yank" consult-yank-pop)]])
-
-(global-set-key (kbd "C-z") 'undo)
-(global-set-key (kbd "<f5>") 'fw/transient-main)
-
-(when (eq system-type 'gnu/linux)
-  (global-set-key (kbd "<menu>") 'fw/transient-main))
-
-(when (eq system-type 'windows-nt)
-  (global-set-key (kbd "<apps>") 'fw/transient-main))
 #+end_src
 
 Change all transients so that I can use q to close them:
 
 #+begin_src emacs-lisp
 (transient-bind-q-to-quit)
+#+end_src
+
+I am using a minor mode to set a few keybindings:
+
+#+begin_src emacs-lisp
+(defvar fw/keys-minor-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "<menu>") 'fw/transient-main)
+    (define-key map (kbd "<apps>") 'fw/transient-main)
+    (define-key map (kbd "<f5>") 'fw/transient-main)
+    (define-key map (kbd "C-z") 'undo)
+    map)
+  "The fw/keys-minor-mode keymap.")
+
+(define-minor-mode fw/keys-minor-mode
+  "A minor mode to override key bindings."
+  :global t
+  :lighter " fw/keys")
+
+(fw/keys-minor-mode 1)
 #+end_src
 
 * Custom
