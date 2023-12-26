@@ -228,7 +228,7 @@ Setup org-capture:
          "* %?" :empty-lines-before 1)))
 
 (defun fw/org-capture-inbox ()
-  "Opens my inbox `org-capture' template"
+  "Opens the `org-capture' inbox template."
   (interactive)
   (org-capture nil "i"))
 #+end_src
@@ -274,7 +274,7 @@ privileges:
 
 #+begin_src emacs-lisp
 (defun fw/sudo ()
-  "Use TRAMP to open a local buffer as `sudo'"
+  "Use TRAMP to open a local buffer as `sudo'."
   (interactive)
   (let ((tramp-file-name
          (expand-file-name (or buffer-file-name default-directory))))
@@ -321,7 +321,7 @@ Define a function to make my org-agenda pretty. Based on [[https://old.reddit.co
 #+begin_src emacs-lisp
 (defun fw/org-agenda-category-icon (category icon)
   "Returns an `org-agenda-category-icon-alist' entry using a
-`nerd-icons' icon"
+`nerd-icons' icon."
   `(,category ,(list (nerd-icons-mdicon icon)) nil nil :ascent center))
 #+end_src
 
@@ -354,7 +354,7 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
 
 #+begin_src emacs-lisp
 (defun fw/prefix-magit-status ()
-  "Runs C-u `magit-status'"
+  "Runs C-u `magit-status'."
   (interactive)
   (setq current-prefix-arg '(4))
   (call-interactively 'magit-status))
@@ -471,7 +471,7 @@ make sure that all packages are compiled:
 
 #+begin_src emacs-lisp
 (defun fw/reset-emacs ()
- "Resets Emac Packages to the latest git commit"
+ "Resets Emac Packages to the latest git commit."
  (interactive)
  (let ((default-directory (concat user-emacs-directory "elpa")))
    (shell-command "git clean -dfx -e archives -e gnupg; git reset --hard")))
@@ -483,22 +483,22 @@ make sure that all packages are compiled:
 (require 'transient)
 
 (defun fw/save ()
-  "Runs the keybinding C-x C-s"
+  "Runs the keybinding C-x C-s."
   (interactive)
   (funcall (key-binding (kbd "C-x C-s"))))
 
 (defun fw/org-edit ()
-  "Runs the keybinding C-c '"
+  "Runs the keybinding C-c '."
   (interactive)
   (funcall (key-binding (kbd "C-c '"))))
 
 (defun fw/highlight-thing-at-point ()
-  "Highlight thing-at-point"
+  "Highlight thing-at-point."
   (interactive)
   (highlight-regexp (regexp-quote (thing-at-point 'symbol))))
 
 (defun fw/unhiglight-all ()
-  "Remove all hi-lock highlighting"
+  "Remove all hi-lock highlighting."
   (interactive)
   (unhighlight-regexp t))
 
@@ -515,7 +515,7 @@ make sure that all packages are compiled:
   (other-window 1))
 
 (transient-define-prefix fw/transient-main ()
-  "fw/transient-main"
+  "The fw/transient-main menu."
   [["Search"
     ("f" "Find file" find-file)
     ("s" "Search buffer" consult-line)
@@ -547,7 +547,7 @@ make sure that all packages are compiled:
     ("q" "Quit Emacs" save-buffers-kill-terminal)]])
 
 (transient-define-prefix fw/transient-project ()
-  "fw/transient-project"
+  "The fw/transient-project menu."
   [["Project"
     ("f" "Find file recursive" fw/find-file)
     ("s" "Search recursive" fw/grep)
@@ -556,7 +556,7 @@ make sure that all packages are compiled:
     ("i" "Magit file" magit-file-dispatch)]])
 
 (transient-define-prefix fw/transient-org ()
-  "fw/transient-org"
+  "The fw/transient-org menu."
   [["Org"
     ("o" "Agenda" fw/org-agenda)
     ("i" "Inbox" fw/org-capture-inbox)
@@ -570,7 +570,7 @@ make sure that all packages are compiled:
     ("b" "Babel" org-babel-tangle)]])
 
 (transient-define-prefix fw/transient-text ()
-  "fw/transient-text"
+  "The fw/transient-text menu."
   [["Spelling"
     ("i" "Check word" ispell-word)
     ("f" "Flyspell mode" flyspell-mode)
