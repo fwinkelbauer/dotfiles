@@ -74,10 +74,14 @@ davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer 
 ** Emacs
 
 #+begin_src emacs-lisp :tangle "~/.config/emacs/custom.el"
+(set-face-attribute 'default nil :family "Roboto Mono" :foundry "GOOG" :slant 'normal :weight 'medium :height 120 :width 'normal)
+
 (setq default-directory "~/Documents/org/"
       org-directory default-directory
       org-default-notes-file (concat org-directory "inbox.org")
       org-agenda-files (list org-directory))
+
+(find-file org-default-notes-file)
 
 (setq org-agenda-category-icon-alist
       (list (fw/org-agenda-category-icon "Inbox" "nf-md-email")
@@ -100,10 +104,6 @@ davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer 
 (setq magit-repository-directories
       '(("~/.config/emacs/" . 0)
         ("~/Projects/" . 1)))
-
-(set-face-attribute 'default nil :family "Roboto Mono" :foundry "GOOG" :slant 'normal :weight 'medium :height 120 :width 'normal)
-
-(find-file org-default-notes-file)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
