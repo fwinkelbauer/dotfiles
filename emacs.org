@@ -477,7 +477,7 @@ make sure that all packages are compiled:
    (shell-command "git clean -dfx -e archives -e gnupg; git reset --hard")))
 #+end_src
 
-* Transient
+** Transient
 
 #+begin_src emacs-lisp
 (require 'transient)
