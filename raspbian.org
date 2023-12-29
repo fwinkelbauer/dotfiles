@@ -58,10 +58,41 @@ git clone https://github.com/fwinkelbauer/dotfiles ~/.config/emacs
 
 ** Updates
 
-#+begin_src sh :tangle "~/.local/bin/my-upgrade" :shebang "#!/bin/bash"
-set -euo pipefail
+#+begin_src python :tangle "~/.local/bin/my-upgrade" :shebang "#!/bin/python3"
+import subprocess
+import os
 
-sudo apt update
-sudo apt upgrade -y
-sudo apt auto-remove -y
+
+def announce(msg):
+    print()
+    print(msg)
+    print("========================================")
+
+
+def run(args, cwd=None):
+    subprocess.run(args, check=True, cwd=cwd)
+
+
+def apt():
+    run(["sudo", "apt", "update"])
+    run(["sudo", "apt", "upgrade", "-y"])
+    run(["sudo", "apt", "auto-remove", "-y"])
+
+
+def git_babel(directory, tangle):
+    directory = os.path.expanduser(directory)
+    tangle = os.path.join(directory, tangle)
+    run(["git", "pull"], directory)
+    run(["emacs", "-Q", "--batch", "-l", "org", "--eval", f'(org-babel-tangle-file "{tangle}")'])
+
+
+def main():
+    announce("Install updates")
+    apt()
+    announce("Update dotfiles")
+    git_babel("~/.config/emacs", "raspbian.org")
+
+
+if __name__ == '__main__':
+    main()
 #+end_src

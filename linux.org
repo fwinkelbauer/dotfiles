@@ -252,15 +252,29 @@ def run(args, cwd=None):
     subprocess.run(args, check=True, cwd=cwd)
 
 
-def main():
-    announce("Install updates")
+def apt():
     run(["sudo", "apt", "update"])
     run(["sudo", "apt", "upgrade", "-y"])
     run(["sudo", "apt", "auto-remove", "-y"])
+
+
+def snap():
     run(["sudo", "snap", "refresh"])
+
+
+def git_babel(directory, tangle):
+    directory = os.path.expanduser(directory)
+    tangle = os.path.join(directory, tangle)
+    run(["git", "pull"], directory)
+    run(["emacs", "-Q", "--batch", "-l", "org", "--eval", f'(org-babel-tangle-file "{tangle}")'])
+
+
+def main():
+    announce("Install updates")
+    apt()
+    snap()
     announce("Update dotfiles")
-    run(["git", "pull"], os.path.expanduser('~/.config/emacs'))
-    run(["emacs", "-Q", "--batch", "-l", "org", "--eval", '(org-babel-tangle-file "~/.config/emacs/linux.org")'])
+    git_babel("~/.config/emacs", "linux.org")
 
 
 if __name__ == '__main__':
