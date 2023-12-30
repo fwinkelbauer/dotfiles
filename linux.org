@@ -230,6 +230,8 @@ output=~/Downloads/homebank.csv
 
 awk '{ FS=";"; gsub("\"", ""); print $1 ";8;;;" $2 ";" $4 ";;" }' "$input" > "$output"
 rm "$input"
+read -p "Press Enter to delete $output: "
+rm "$output"
 #+end_src
 
 ** Updates
