@@ -59,6 +59,12 @@ Hide startup message and show an empty scratch buffer:
       initial-scratch-message nil)
 #+end_src
 
+Increase the garbage collection threshold:
+
+#+begin_src emacs-lisp
+(setq gc-cons-threshold 20000000)
+#+end_src
+
 Always start in full screen:
 
 #+begin_src emacs-lisp
@@ -115,7 +121,7 @@ Ensure that files end with a new line and contain no trailing whitespace:
 
 #+begin_src emacs-lisp
 (setq require-final-newline t)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 #+end_src
 
 Mark matching pairs of parentheses:
@@ -345,7 +351,7 @@ I'd like to spellcheck my commit messages:
 
 #+begin_src emacs-lisp
 (when (executable-find "aspell")
-  (add-hook 'git-commit-mode-hook 'flyspell-mode))
+  (add-hook 'git-commit-mode-hook #'flyspell-mode))
 #+end_src
 
 Running ~magit-status~ with a prefix argument shows all repositories defined in
@@ -435,7 +441,7 @@ Deactivate company-mode when using tramp:
   (when (file-remote-p default-directory)
     (company-mode -1)))
 
-(add-hook 'shell-mode-hook 'fw/remote-shell-no-company)
+(add-hook 'shell-mode-hook #'fw/remote-shell-no-company)
 #+end_src
 
 ** Doom Modeline
