@@ -268,11 +268,12 @@ def snap():
     run(["sudo", "snap", "refresh"])
 
 
-def git_babel(directory, tangle):
-    directory = os.path.expanduser(directory)
-    tangle = os.path.join(directory, tangle)
-    run(["git", "pull"], directory)
-    run(["emacs", "-Q", "--batch", "-l", "org", "--eval", f'(org-babel-tangle-file "{tangle}")'])
+def git(directory):
+    run(["git", "pull"], os.path.expanduser(directory))
+
+
+def tangle(tangle_file):
+    run(["emacs", "-Q", "--batch", "-l", "org", "--eval", f'(org-babel-tangle-file "{tangle_file}")'])
 
 
 def main():
@@ -280,7 +281,9 @@ def main():
     apt()
     snap()
     announce("Update dotfiles")
-    git_babel("~/.config/emacs", "linux.org")
+    git("~/.config/emacs")
+    tangle("~/.config/emacs/linux.org")
+    tangle("~/.config/emacs/emacs.org")
 
 
 if __name__ == '__main__':

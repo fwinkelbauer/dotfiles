@@ -1,5 +1,6 @@
 #+TITLE: Emacs Configuration
 #+STARTUP: content
+#+PROPERTY: header-args :tangle "~/.config/emacs/init.el"
 
 * Introduction
 
@@ -156,6 +157,8 @@ Use single space after a sentence:
 General org configuration:
 
 #+begin_src emacs-lisp
+(require 'org)
+
 (setq org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)"))
       org-todo-keyword-faces '(("WAIT" . "orange")))
 
@@ -175,8 +178,6 @@ Improve org's source code blocks:
 The calendar should use my native language and know about my holidays:
 
 #+begin_src emacs-lisp
-(require 'calendar)
-
 (setq calendar-week-start-day 1
       calendar-day-name-array ["Sonntag" "Montag" "Dienstag" "Mittwoch"
                                "Donnerstag" "Freitag" "Samstag"]

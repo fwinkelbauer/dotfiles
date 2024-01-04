@@ -81,18 +81,21 @@ def apt():
     run(["sudo", "apt", "auto-remove", "-y"])
 
 
-def git_babel(directory, tangle):
-    directory = os.path.expanduser(directory)
-    tangle = os.path.join(directory, tangle)
-    run(["git", "pull"], directory)
-    run(["emacs", "-Q", "--batch", "-l", "org", "--eval", f'(org-babel-tangle-file "{tangle}")'])
+def git(directory):
+    run(["git", "pull"], os.path.expanduser(directory))
+
+
+def tangle(tangle_file):
+    run(["emacs", "-Q", "--batch", "-l", "org", "--eval", f'(org-babel-tangle-file "{tangle_file}")'])
 
 
 def main():
     announce("Install updates")
     apt()
     announce("Update dotfiles")
-    git_babel("~/.config/emacs", "raspbian.org")
+    git("~/.config/emacs")
+    tangle("~/.config/emacs/raspbian.org")
+    tangle("~/.config/emacs/emacs.org")
 
 
 if __name__ == '__main__':
