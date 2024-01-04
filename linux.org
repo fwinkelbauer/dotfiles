@@ -74,10 +74,6 @@ Public
 Templates
 #+end_src
 
-#+begin_src fundamental :tangle "~/Downloads/.hidden"
-firefix.tmp
-#+end_src
-
 ** Emacs
 
 #+begin_src emacs-lisp :tangle "~/.config/emacs/custom.el"

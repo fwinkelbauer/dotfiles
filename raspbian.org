@@ -4,6 +4,8 @@
 
 * Setup
 
+This is my Raspberry Pi 400 setup script:
+
 #+begin_src sh
 #!/bin/bash
 
@@ -28,9 +30,6 @@ git clone https://github.com/fwinkelbauer/dotfiles ~/.config/emacs
 (setq default-directory "~/Dokumente/")
 
 (find-file "~/Dokumente/inbox.org")
-
-(setq browse-url-browser-function 'browse-url-chromium
-      browse-url-chromium-arguments '("-incognito"))
 
 (setq magit-repository-directories
       '(("~/.config/emacs/" . 0)))
@@ -57,6 +56,9 @@ git clone https://github.com/fwinkelbauer/dotfiles ~/.config/emacs
 * Scripts
 
 ** Updates
+
+This script is written in Python so that it can update itself while its running.
+Doing the same thing in bash has weird consequences:
 
 #+begin_src python :tangle "~/.local/bin/my-upgrade" :shebang "#!/bin/python3"
 import subprocess
