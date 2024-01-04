@@ -68,7 +68,7 @@ import os
 def announce(msg):
     print()
     print(msg)
-    print("========================================")
+    print('========================================')
 
 
 def run(args, cwd=None):
@@ -76,26 +76,26 @@ def run(args, cwd=None):
 
 
 def apt():
-    run(["sudo", "apt", "update"])
-    run(["sudo", "apt", "upgrade", "-y"])
-    run(["sudo", "apt", "auto-remove", "-y"])
+    run(['sudo', 'apt', 'update'])
+    run(['sudo', 'apt', 'upgrade', '-y'])
+    run(['sudo', 'apt', 'auto-remove', '-y'])
 
 
 def git(directory):
-    run(["git", "pull"], os.path.expanduser(directory))
+    run(['git', 'pull'], os.path.expanduser(directory))
 
 
 def tangle(tangle_file):
-    run(["emacs", "-Q", "--batch", "-l", "org", "--eval", f'(org-babel-tangle-file "{tangle_file}")'])
+    run(['emacs', '-Q', '--batch', '-l', 'org', '--eval', f'(org-babel-tangle-file "{tangle_file}")'])
 
 
 def main():
-    announce("Install updates")
+    announce('Install updates')
     apt()
-    announce("Update dotfiles")
-    git("~/.config/emacs")
-    tangle("~/.config/emacs/raspbian.org")
-    tangle("~/.config/emacs/emacs.org")
+    announce('Update dotfiles')
+    git('~/.config/emacs')
+    tangle('~/.config/emacs/raspbian.org')
+    tangle('~/.config/emacs/emacs.org')
 
 
 if __name__ == '__main__':
