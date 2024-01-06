@@ -413,8 +413,6 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
   (if (project-current)
       (consult-git-grep)
     (consult-grep)))
-
-(global-set-key (kbd "C-.") 'embark-act)
 #+end_src
 
 ** Company
@@ -612,6 +610,7 @@ I am using a minor mode to set a few keybindings:
     (define-key map (kbd "<menu>") 'fw/transient-main)
     (define-key map (kbd "<apps>") 'fw/transient-main)
     (define-key map (kbd "<f5>") 'fw/transient-main)
+    (define-key map (kbd "C-.") 'embark-act)
     (define-key map (kbd "C-z") 'undo)
     map)
   "The fw/keys-minor-mode keymap.")
