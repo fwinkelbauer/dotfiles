@@ -27,8 +27,8 @@ xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-filesystem' -
 xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-removable' -s 'false'
 
 # After backup restore
-git clone git@github.com:fwinkelbauer/dotfiles.git ~/.config/emacs
-git clone git@github.com:fwinkelbauer/fwinkelbauer.github.io.git ~/Projects/website
+git clone https://github.com/fwinkelbauer/dotfiles.git ~/.config/emacs
+git clone https://github.com/fwinkelbauer/fwinkelbauer.github.io.git ~/Projects/website
 
 # Disable apport
 sudo emacs /etc/default/apport
@@ -155,6 +155,9 @@ Templates
 
 [merge]
   conflictStyle = diff3
+
+[url "git@github.com:fwinkelbauer/"]
+  insteadOf = "https://github.com/fwinkelbauer/"
 #+end_src
 
 
