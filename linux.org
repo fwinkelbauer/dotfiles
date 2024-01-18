@@ -224,6 +224,13 @@ for remote in "${remotes[@]}"; do
 done
 #+end_src
 
+#+begin_src sh :tangle "~/.local/bin/pls" :shebang "#!/bin/bash"
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+./pls "$@"
+#+end_src
+
 ** Homebank
 
 #+begin_src sh :tangle "~/.local/bin/my-homebank" :shebang "#!/bin/bash"
