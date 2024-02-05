@@ -31,9 +31,8 @@ mkdir -p ~/.local/bin
 
 sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 
-# After backup restore
-git clone git@github.com:fwinkelbauer/dotfiles.git ~/.config/emacs
-git clone git@github.com:fwinkelbauer/fwinkelbauer.github.io.git ~/Projects/website
+git clone https://github.com/fwinkelbauer/dotfiles.git ~/.config/emacs
+git clone https://github.com/fwinkelbauer/fwinkelbauer.github.io.git ~/Projects/website
 #+end_src
 
 
@@ -157,6 +156,9 @@ Templates
 
 [merge]
   conflictStyle = diff3
+
+[url "git@github.com:fwinkelbauer/"]
+  insteadOf = "https://github.com/fwinkelbauer/"
 #+end_src
 
 
