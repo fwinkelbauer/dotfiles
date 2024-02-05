@@ -26,9 +26,6 @@ xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-trash' -s 'fa
 xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-filesystem' -s 'false'
 xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-removable' -s 'false'
 
-mkdir -p ~/bin
-mkdir -p ~/.local/bin
-
 sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 
 git clone https://github.com/fwinkelbauer/dotfiles.git ~/.config/emacs
