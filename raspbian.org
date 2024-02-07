@@ -14,8 +14,6 @@ set -euo pipefail
 sudo apt update
 sudo apt -y install emacs
 
-mkdir -p ~/.local/bin && . ~/.profile
-
 git clone https://github.com/fwinkelbauer/dotfiles ~/.config/emacs
 #+end_src
 
