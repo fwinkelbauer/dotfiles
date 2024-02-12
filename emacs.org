@@ -274,28 +274,20 @@ Basic agenda configuration with a custom agenda view:
   (org-agenda nil "."))
 #+end_src
 
-* TRAMP
+* Tramp
 
 Tramp Mode is also useful if you want to visit a local file with higher
 privileges:
 
 #+begin_src emacs-lisp
 (defun fw/sudo ()
-  "Use TRAMP to open a local buffer as `sudo'."
+  "Use TRAMP to open a local buffer using `sudo'."
   (interactive)
   (let ((tramp-file-name
          (expand-file-name (or buffer-file-name default-directory))))
     (if (file-remote-p tramp-file-name)
         (error (concat "Remote path not supported: " tramp-file-name))
       (find-alternate-file (concat "/sudo::" tramp-file-name)))))
-#+end_src
-
-* Known File Extensions
-
-#+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.editorconfig\\'" . conf-mode))
-(add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
-(add-to-list 'auto-mode-alist '("\\.props\\'" . nxml-mode))
 #+end_src
 
 * External Packages

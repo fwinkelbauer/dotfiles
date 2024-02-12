@@ -3,13 +3,10 @@ eln-cache/
 elpa/archives/
 elpa/gnupg/
 eshell/
-org-persist/
-projects/
-server/
 transient/
 
+*.elc
 init.el
 custom.el
-*.elc
 projects
 tramp
