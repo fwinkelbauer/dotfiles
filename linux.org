@@ -93,9 +93,6 @@ Templates
             (fw/org-agenda-category-icon "Aufgabe" "nf-md-file_document_outline")
             (fw/org-agenda-category-icon "Wiederh" "nf-md-update")))
 
-(setq browse-url-browser-function 'browse-url-firefox
-      browse-url-firefox-arguments '("-private-window"))
-
 (setq elfeed-feeds
       '(("https://www.youtube.com/feeds/videos.xml?channel_id=UCTdw38Cw6jcm0atBPA39a0Q" conference) ; NDC
         ("https://www.youtube.com/feeds/videos.xml?channel_id=UC3PGn-hQdbtRiqxZK9XBGqQ" conference) ; DDD Europe
