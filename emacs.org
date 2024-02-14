@@ -274,22 +274,6 @@ Basic agenda configuration with a custom agenda view:
   (org-agenda nil "."))
 #+end_src
 
-* Tramp
-
-Tramp Mode is also useful if you want to visit a local file with higher
-privileges:
-
-#+begin_src emacs-lisp
-(defun fw/sudo ()
-  "Use TRAMP to open a local buffer using `sudo'."
-  (interactive)
-  (let ((tramp-file-name
-         (expand-file-name (or buffer-file-name default-directory))))
-    (if (file-remote-p tramp-file-name)
-        (error (concat "Remote path not supported: " tramp-file-name))
-      (find-alternate-file (concat "/sudo::" tramp-file-name)))))
-#+end_src
-
 * External Packages
 
 ** Themes
@@ -524,7 +508,7 @@ make sure that all packages are compiled:
     ("k" "Kill buffer" kill-this-buffer)
     ("b" "Switch buffer" consult-buffer)
     ("h" "Mark all" mark-whole-buffer)
-    ("d" "Open directory" dired-jump)]
+    ("d" "Open directory" dired)]
 
    ["Window"
     ("0" "Delete window" delete-window)
@@ -576,16 +560,13 @@ make sure that all packages are compiled:
    ["Highlight"
     ("." "Point" fw/highlight-thing-at-point)
     ("h" "Regex" highlight-regexp)
-    ("c" "Clear" fw/unhiglight-all)]
+    ("c" "Clear" fw/unhiglight-all)
+    ("w" "Whitespace" whitespace-mode)]
 
    ["Rectangle"
     ("SPC" "Mark" rectangle-mark-mode)
     ("t" "Insert" string-rectangle)
-    ("d" "Delete" delete-rectangle)]
-
-   ["Other"
-    ("w" "Whitespace mode" whitespace-mode)
-    ("y" "Yank" consult-yank-pop)]])
+    ("d" "Delete" delete-rectangle)]])
 #+end_src
 
 Change all transients so that I can use q to close them:
