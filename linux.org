@@ -147,9 +147,13 @@ Templates
 
 [push]
   followTags = true
+  default = current
 
 [merge]
-  conflictStyle = diff3
+  conflictStyle = zdiff3
+
+[log]
+  date = iso
 
 [url "git@github.com:fwinkelbauer/"]
   insteadOf = "https://github.com/fwinkelbauer/"
