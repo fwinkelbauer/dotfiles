@@ -286,7 +286,7 @@ with just some minor adjustments:
 
 #+begin_src emacs-lisp
 (set-face-attribute 'org-agenda-structure nil :height 1.25)
-(set-face-attribute 'org-agenda-date-today nil :slant 'normal)
+(set-face-attribute 'org-agenda-date-today nil :slant 'normal :underline t)
 #+end_src
 
 ** Nerd Icons
