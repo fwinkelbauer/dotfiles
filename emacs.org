@@ -266,8 +266,8 @@ Basic agenda configuration with a custom agenda view:
                  (org-agenda-todo-ignore-deadlines 'all)
                  (org-agenda-todo-ignore-scheduled 'all)))))))
 
-(defun fw/org-agenda ()
-  "Show my custom org-agenda."
+(defun fw/org-overview ()
+  "Show my inbox and custom org-agenda."
   (interactive)
   (delete-other-windows)
   (find-file org-default-notes-file)
@@ -539,7 +539,7 @@ make sure that all packages are compiled:
 (transient-define-prefix fw/transient-org ()
   "The fw/transient-org menu."
   [["Org"
-    ("o" "Agenda" fw/org-agenda)
+    ("o" "Overview" fw/org-overview)
     ("i" "Inbox" fw/org-capture-inbox)
     ("l" "Link" org-insert-link)
     ("t" "Todo" org-todo)

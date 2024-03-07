@@ -7,8 +7,6 @@
 This is my setup script for Xubuntu 23.10:
 
 #+begin_src sh
-#!/bin/bash
-
 set -euo pipefail
 
 sudo apt update
