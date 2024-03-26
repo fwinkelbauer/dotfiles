@@ -82,15 +82,6 @@ Templates
 
 (find-file org-default-notes-file)
 
-(setq org-agenda-category-icon-alist
-      (list (fw/org-agenda-category-icon "Inbox" "nf-md-email")
-            (fw/org-agenda-category-icon "Geburtstag" "nf-md-cake_variant")
-            (fw/org-agenda-category-icon "Wichtig" "nf-md-star")
-            (fw/org-agenda-category-icon "Termin" "nf-md-calendar")
-            (fw/org-agenda-category-icon "Frist" "nf-md-shield_alert")
-            (fw/org-agenda-category-icon "Aufgabe" "nf-md-file_document_outline")
-            (fw/org-agenda-category-icon "Wiederh" "nf-md-update")))
-
 (setq elfeed-feeds
       '(("https://www.youtube.com/feeds/videos.xml?channel_id=UCTdw38Cw6jcm0atBPA39a0Q" conference) ; NDC
         ("https://www.youtube.com/feeds/videos.xml?channel_id=UC3PGn-hQdbtRiqxZK9XBGqQ" conference) ; DDD Europe
@@ -261,26 +252,26 @@ def announce(msg):
     print('========================================')
 
 
-def run(args, cwd=None):
-    subprocess.run(args, check=True, cwd=cwd)
+def run(args):
+    subprocess.run(args, shell=True, check=True)
 
 
 def apt():
-    run(['sudo', 'apt', 'update'])
-    run(['sudo', 'apt', 'upgrade', '-y'])
-    run(['sudo', 'apt', 'auto-remove', '-y'])
+    run('sudo apt update')
+    run('sudo apt upgrade -y')
+    run('sudo apt auto-remove -y')
 
 
 def snap():
-    run(['sudo', 'snap', 'refresh'])
+    run('sudo snap refresh')
 
 
 def git(directory):
-    run(['git', 'pull'], os.path.expanduser(directory))
+    run(f'git -C {directory} pull')
 
 
 def tangle(tangle_file):
-    run(['emacs', '-Q', '--batch', '-l', 'org', '--eval', f'(org-babel-tangle-file "{tangle_file}")'])
+    run(f'emacs -Q --batch -l org --eval \'(org-babel-tangle-file "{tangle_file}")\'')
 
 
 def main():

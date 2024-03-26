@@ -3,6 +3,7 @@ eln-cache/
 elpa/archives/
 elpa/gnupg/
 eshell/
+org-persist/
 transient/
 
 *.elc

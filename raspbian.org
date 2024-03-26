@@ -69,22 +69,22 @@ def announce(msg):
     print('========================================')
 
 
-def run(args, cwd=None):
-    subprocess.run(args, check=True, cwd=cwd)
+def run(args):
+    subprocess.run(args, shell=True, check=True)
 
 
 def apt():
-    run(['sudo', 'apt', 'update'])
-    run(['sudo', 'apt', 'upgrade', '-y'])
-    run(['sudo', 'apt', 'auto-remove', '-y'])
+    run('sudo apt update')
+    run('sudo apt upgrade -y')
+    run('sudo apt auto-remove -y')
 
 
 def git(directory):
-    run(['git', 'pull'], os.path.expanduser(directory))
+    run(f'git -C {directory} pull')
 
 
 def tangle(tangle_file):
-    run(['emacs', '-Q', '--batch', '-l', 'org', '--eval', f'(org-babel-tangle-file "{tangle_file}")'])
+    run(f'emacs -Q --batch -l org --eval \'(org-babel-tangle-file "{tangle_file}")\'')
 
 
 def main():

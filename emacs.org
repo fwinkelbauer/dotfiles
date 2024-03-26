@@ -280,11 +280,6 @@ Basic agenda configuration with a custom agenda view:
 
 #+begin_src emacs-lisp
 (load-theme 'sanityinc-tomorrow-night t)
-#+end_src
-
-with just some minor adjustments:
-
-#+begin_src emacs-lisp
 (set-face-attribute 'org-agenda-structure nil :height 1.25)
 (set-face-attribute 'org-agenda-date-today nil :slant 'normal :underline t)
 #+end_src
@@ -299,13 +294,17 @@ Make dired pretty:
 (add-hook 'dired-mode-hook #'nerd-icons-dired-mode)
 #+end_src
 
-Define a function to make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hnf3cw/my_orgmode_agenda_much_better_now_with_category/][this reddit post]]:
+Make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hnf3cw/my_orgmode_agenda_much_better_now_with_category/][this reddit post]]:
 
 #+begin_src emacs-lisp
-(defun fw/org-agenda-category-icon (category icon)
-  "Returns an `org-agenda-category-icon-alist' entry using a
-`nerd-icons' icon."
-  `(,category ,(list (nerd-icons-mdicon icon)) nil nil :ascent center))
+(setq org-agenda-category-icon-alist
+      (list `("Inbox" ,(list (nerd-icons-mdicon "nf-md-email")))
+            `("Termin" ,(list (nerd-icons-mdicon "nf-md-calendar")))
+            `("Frist" ,(list (nerd-icons-mdicon "nf-md-shield_alert")))
+            `("Aufgabe" ,(list (nerd-icons-mdicon "nf-md-file_document_outline")))
+            `("Wiederh" ,(list (nerd-icons-mdicon "nf-md-update")))
+            `("Geburtstag" ,(list (nerd-icons-mdicon "nf-md-cake_variant")))
+            `("Wichtig" ,(list (nerd-icons-mdicon "nf-md-star")))))
 #+end_src
 
 ** Markdown
@@ -341,16 +340,6 @@ I don't like to press ~C-u~, I'll define a function to do it for me:
   (interactive)
   (setq current-prefix-arg '(4))
   (call-interactively 'magit-status))
-#+end_src
-
-~with-editor~ suggests these settings:
-
-#+begin_src emacs-lisp
-(shell-command-with-editor-mode)
-(add-hook 'shell-mode-hook  #'with-editor-export-editor)
-(add-hook 'eshell-mode-hook #'with-editor-export-editor)
-(add-hook 'term-exec-hook   #'with-editor-export-editor)
-(add-hook 'vterm-mode-hook  #'with-editor-export-editor)
 #+end_src
 
 ** Vertico & Orderless
@@ -407,16 +396,6 @@ get down cased, even if notations such as camel casing are used):
 #+begin_src emacs-lisp
 (setq company-dabbrev-downcase nil
       company-dabbrev-ignore-case nil)
-#+end_src
-
-Deactivate company-mode when using tramp:
-
-#+begin_src emacs-lisp
-(defun fw/remote-shell-no-company ()
-  (when (file-remote-p default-directory)
-    (company-mode -1)))
-
-(add-hook 'shell-mode-hook #'fw/remote-shell-no-company)
 #+end_src
 
 ** Doom Modeline
@@ -507,8 +486,7 @@ make sure that all packages are compiled:
     ("w" "Save buffer" fw/save)
     ("k" "Kill buffer" kill-this-buffer)
     ("b" "Switch buffer" consult-buffer)
-    ("h" "Mark all" mark-whole-buffer)
-    ("d" "Open directory" dired)]
+    ("h" "Mark all" mark-whole-buffer)]
 
    ["Window"
     ("0" "Delete window" delete-window)
@@ -602,8 +580,8 @@ Additional configuration that is only relevant on a particular machine should be
 stored in a ~custom.el~ file:
 
 #+begin_src emacs-lisp
-(setq custom-file (locate-user-emacs-file "custom.el"))
+(setq fw/custom-config-file (locate-user-emacs-file "custom.el"))
 
-(when (file-exists-p custom-file)
-  (load custom-file))
+(when (file-exists-p fw/custom-config-file)
+  (load fw/custom-config-file))
 #+end_src
