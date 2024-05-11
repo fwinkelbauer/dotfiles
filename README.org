@@ -1,0 +1,4 @@
+#+TITLE: Dotfiles
+
+This repository contains scripts and config files which I use on my computers.
+Read [[./xubuntu.org][xubuntu.org]] to learn more.

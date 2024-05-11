@@ -1,0 +1,710 @@
+#+TITLE: Xubuntu Configuration
+#+STARTUP: content
+
+* Setup
+
+This is my setup script for Xubuntu 24.04:
+
+#+begin_src sh
+sudo apt update
+sudo apt -y install numix-gtk-theme numix-icon-theme-circle
+sudo apt -y install emacs git keepassxc dotnet-sdk-8.0 homebank
+sudo apt -y install nvidia-driver-535
+
+xfconf-query -c 'xsettings' -p '/Net/ThemeName' -n -s 'Numix'
+xfconf-query -c 'xsettings' -p '/Net/IconThemeName' -n -s 'Numix-Circle'
+xfconf-query -c 'xfwm4' -p '/general/theme' -n -s 'Numix'
+xfconf-query -c 'xfwm4' -p '/general/placement_ratio' -n -s 100
+xfconf-query -c 'xfce4-keyboard-shortcuts' -p '/commands/custom/<Super>e' -n -s 'emacs'
+xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-home' -n -s 'false'
+xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-trash' -n -s 'false'
+xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-filesystem' -n -s 'false'
+xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-removable' -n -s 'false'
+xfconf-query -c 'xfce4-screensaver' -p '/saver/idle-activation/delay' -n -s 15
+
+sudo locale-gen 'de_DE.UTF-8'
+sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
+
+git clone https://github.com/fwinkelbauer/chunkyard ~/Projects/chunkyard
+git clone https://github.com/fwinkelbauer/dotfiles.git ~/Projects/dotfiles
+git clone https://github.com/fwinkelbauer/fwinkelbauer.github.io.git ~/Projects/website
+
+emacs -Q --batch -l org --eval '(org-babel-tangle-file "~/Projects/dotfiles/xubuntu.org")'
+
+. ~/.profile
+my-copy
+my-restore
+my-upgrade
+#+end_src
+
+
+* Configuration
+:PROPERTIES:
+:header-args: :mkdirp yes
+:END:
+
+** Desktop
+
+#+begin_src conf :tangle "~/.local/share/applications/emacs.desktop"
+[Desktop Entry]
+Version=1.0
+Name=Emacs (GUI)
+GenericName=Text Editor
+Comment=GNU Emacs is an extensible, customizable text editor - and more
+MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
+TryExec=/usr/bin/emacs
+Exec=emacsclient -na emacs %F
+Icon=emacs
+Type=Application
+Terminal=false
+Categories=Utility;Development;TextEditor;
+StartupNotify=true
+StartupWMClass=Emacs
+Keywords=Text;Editor;
+#+end_src
+
+#+begin_src fundamental :tangle "~/.config/gtk-3.0/bookmarks"
+file:///home/florian/Documents
+file:///home/florian/Downloads
+file:///home/florian/Music
+file:///home/florian/Pictures
+file:///home/florian/Videos
+davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer mailbox.org
+#+end_src
+
+#+begin_src fundamental :tangle "~/.hidden"
+Games
+snap
+Public
+Templates
+#+end_src
+
+** Git
+
+#+begin_src conf :tangle "~/.config/git/config"
+[user]
+  email = mail@florianwinkelbauer.com
+  name = Florian Winkelbauer
+  signingKey = ~/.ssh/git-commit.ed25519.pub
+
+[gpg]
+  format = ssh
+
+[init]
+  defaultBranch = main
+
+[status]
+  showUntrackedFiles = all
+
+[commit]
+  gpgSign = true
+
+[tag]
+  gpgSign = true
+
+[fetch]
+  prune = true
+
+[push]
+  followTags = true
+  default = current
+
+[merge]
+  conflictStyle = zdiff3
+
+[log]
+  date = iso
+
+[url "git@github.com:fwinkelbauer/"]
+  insteadOf = "https://github.com/fwinkelbauer/"
+#+end_src
+
+
+* Scripts
+:PROPERTIES:
+:header-args: :mkdirp yes
+:END:
+
+** Chunkyard
+
+#+begin_src sh :tangle "~/.local/bin/my-store" :shebang "#!/bin/bash -eu"
+local=~/.chunkyard
+
+directories=(
+    ~/.local/share/fonts
+    ~/.ssh
+    ~/Documents
+    ~/Music
+    ~/Pictures
+    ~/Videos
+)
+
+includes=(
+    '!\~$'
+    '!\.uuid$'
+)
+
+chunkyard store --repository "$local" --paths "${directories[@]}" --includes "${includes[@]}" --prompt 'Store' "$@"
+
+chmod 700 ~/.config/chunkyard
+chmod 600 ~/.config/chunkyard/*
+#+end_src
+
+#+begin_src sh :tangle "~/.local/bin/my-restore" :shebang "#!/bin/bash -eu"
+local=~/.chunkyard
+
+chunkyard restore --repository "$local" --directory ~/ --prompt 'Store' "$@"
+
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/*
+
+my-store --preview
+#+end_src
+
+#+begin_src sh :tangle "~/.local/bin/my-copy" :shebang "#!/bin/bash -eu"
+local=~/.chunkyard
+
+remotes=(
+    /media/florian/Backup1/Florian/main.chunkyard
+    /media/florian/Backup2/Florian/main.chunkyard
+    /media/florian/DORA1/main.chunkyard
+)
+
+for remote in "${remotes[@]}"; do
+    if ! [ -d "$remote" ]; then
+        continue
+    fi
+
+    if ! [ -x "$(command -v chunkyard)" ]; then
+        cp "$remote/chunkyard" ~/.local/bin/
+    fi
+
+    echo "Pushing to: $remote"
+    chunkyard copy --repository "$local" --destination "$remote" --prompt 'Store'
+
+    echo "Pulling from: $remote"
+    chunkyard copy --repository "$remote" --destination "$local" --prompt 'Store'
+
+    echo "Cleaning up: $remote"
+    chunkyard keep --repository "$remote" --latest '12' --prompt 'Store'
+done
+
+echo "Cleaning up: $local"
+chunkyard keep --repository "$local" --latest '12' --prompt 'Store'
+#+end_src
+
+#+begin_src sh :tangle "~/.local/bin/pls" :shebang "#!/bin/bash -eu"
+root=$(git rev-parse --show-toplevel)
+
+cd "$root"
+./pls "$@"
+#+end_src
+
+** Homebank
+
+#+begin_src sh :tangle "~/.local/bin/my-homebank" :shebang "#!/bin/bash -eu"
+input=$(find ~/Downloads -name 'meinElba*.csv')
+output=~/Downloads/homebank.csv
+
+awk '{ FS=";"; gsub("\"", ""); print $1 ";8;;;" $2 ";" $4 ";;" }' "$input" > "$output"
+rm "$input"
+read -rp "Press Enter to delete $output: "
+rm "$output"
+#+end_src
+
+** Updates
+
+This script is written in Python so that it can update itself while its running.
+Doing the same thing in bash has weird consequences:
+
+#+begin_src python :tangle "~/.local/bin/my-upgrade" :shebang "#!/bin/python3"
+import subprocess
+import os
+
+
+def announce(msg):
+    print()
+    print(msg)
+    print('========================================')
+
+
+def run(args):
+    subprocess.run(args, shell=True, check=True)
+
+
+def apt():
+    run('sudo apt update')
+    run('sudo apt upgrade -y')
+    run('sudo apt auto-remove -y')
+
+
+def snap():
+    run('sudo snap refresh')
+
+
+def git(directory):
+    run(f'git -C {directory} pull')
+
+
+def tangle(tangle_file):
+    run(f'emacs -Q --batch -l org --eval \'(org-babel-tangle-file "{tangle_file}")\'')
+
+
+def main():
+    announce('Install updates')
+    apt()
+    snap()
+    announce('Update dotfiles')
+    git('~/Projects/dotfiles')
+    tangle('~/Projects/dotfiles/xubuntu.org')
+
+
+if __name__ == '__main__':
+    main()
+#+end_src
+
+
+* Emacs
+:PROPERTIES:
+:header-args: :mkdirp yes :tangle "~/.config/emacs/init.el"
+:END:
+
+** Package Manager
+
+Make sure that we are running a newer version of Emacs:
+
+#+begin_src emacs-lisp
+(when (version< emacs-version "29.3")
+  (error "Unsupported version of Emacs"))
+#+end_src
+
+Setup the package manager:
+
+#+begin_src emacs-lisp
+(require 'package)
+
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+
+(package-initialize)
+
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
+#+end_src
+
+** General
+
+Simplify confirmation:
+
+#+begin_src emacs-lisp
+(setq use-short-answers t)
+#+end_src
+
+Reload a buffer if it was changed by some other process:
+
+#+begin_src emacs-lisp
+(global-auto-revert-mode t)
+(setq global-auto-revert-non-file-buffers t)
+#+end_src
+
+Disable backup, auto save and lock files:
+
+#+begin_src emacs-lisp
+(setq backup-inhibited t
+      auto-save-default nil
+      create-lockfiles nil)
+#+end_src
+
+Disable audio bell:
+
+#+begin_src emacs-lisp
+(setq visible-bell t)
+#+end_src
+
+Hide startup message and show an empty scratch buffer:
+
+#+begin_src emacs-lisp
+(setq inhibit-startup-message t
+      initial-scratch-message nil)
+#+end_src
+
+Increase the garbage collection threshold:
+
+#+begin_src emacs-lisp
+(setq gc-cons-threshold 20000000)
+#+end_src
+
+Always start in full screen:
+
+#+begin_src emacs-lisp
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+#+end_src
+
+Start Emacs in server mode:
+
+#+begin_src emacs-lisp
+(require 'server)
+(unless (server-running-p) (server-start))
+#+end_src
+
+Hide toolbar:
+
+#+begin_src emacs-lisp
+(tool-bar-mode 0)
+#+end_src
+
+Enable column numbers:
+
+#+begin_src emacs-lisp
+(setq column-number-mode t)
+#+end_src
+
+Make scrolling smoother:
+
+#+begin_src emacs-lisp
+(pixel-scroll-precision-mode)
+#+end_src
+
+Set font preferences:
+
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil :family "Roboto Mono" :foundry "GOOG" :slant 'normal :weight 'medium :height 120 :width 'normal)
+#+end_src
+
+** Text
+
+Set default line length:
+
+#+begin_src emacs-lisp
+(setq-default fill-column 80)
+#+end_src
+
+Overwrite selected text when typing:
+
+#+begin_src emacs-lisp
+(delete-selection-mode t)
+#+end_src
+
+Ensure that files end with a new line and contain no trailing whitespace:
+
+#+begin_src emacs-lisp
+(setq require-final-newline t)
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
+#+end_src
+
+Mark matching pairs of parentheses:
+
+#+begin_src emacs-lisp
+(show-paren-mode t)
+(setq show-paren-delay 0.0)
+#+end_src
+
+Spaces > Tabs:
+
+#+begin_src emacs-lisp
+(setq-default indent-tabs-mode nil)
+#+end_src
+
+Use single space after a sentence:
+
+#+begin_src emacs-lisp
+(setq sentence-end-double-space nil)
+#+end_src
+
+** Org
+
+General org configuration:
+
+#+begin_src emacs-lisp
+(require 'org)
+
+(setq org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)"))
+      org-todo-keyword-faces '(("WAIT" . "orange"))
+      org-directory "~/Documents/org/"
+      org-default-notes-file (concat org-directory "inbox.org")
+      org-agenda-files (list org-directory))
+
+(set-locale-environment "de_DE.UTF-8")
+
+(add-hook 'org-mode-hook (lambda () (electric-indent-local-mode -1)))
+#+end_src
+
+Improve org's source code blocks:
+
+#+begin_src emacs-lisp
+(setq org-src-window-setup 'current-window
+      org-edit-src-content-indentation 0)
+#+end_src
+
+The calendar should use my native language and know about my holidays:
+
+#+begin_src emacs-lisp
+(setq calendar-week-start-day 1
+      calendar-day-name-array ["Sonntag" "Montag" "Dienstag" "Mittwoch"
+                               "Donnerstag" "Freitag" "Samstag"]
+      calendar-month-name-array ["Jänner" "Februar" "März" "April"
+                                 "Mai" "Juni" "Juli" "August" "September"
+                                 "Oktober" "November" "Dezember"])
+
+(setq parse-time-months '(("jän" . 1) ("feb" . 2) ("mär" . 3)
+                          ("apr" . 4) ("mai" . 5) ("jun" . 6)
+                          ("jul" . 7) ("aug" . 8) ("sep" . 9)
+                          ("okt" . 10) ("nov" . 11) ("dez" . 12)
+                          ("jänner" . 1) ("februar" . 2) ("märz" . 3)
+                          ("april" . 4) ("mai" . 5) ("juni" . 6)
+                          ("juli" . 7) ("august" . 8)
+                          ("september" . 9) ("oktober" . 10)
+                          ("november" . 11) ("dezember" . 12)))
+
+(setq parse-time-weekdays '(("so" . 0) ("mo" . 1) ("di" . 2)
+                            ("mi" . 3) ("do" . 4) ("fr" . 5)
+                            ("sa" . 6) ("sonntag" . 0) ("montag" . 1)
+                            ("dienstag" . 2) ("mittwoch" . 3)
+                            ("donnerstag" . 4) ("freitag" . 5)
+                            ("samstag" . 6)))
+
+(setq holiday-local-holidays
+      '((holiday-fixed  1  1 "Neujahr (frei)")
+        (holiday-fixed  1  6 "Heilige Drei Könige (frei)")
+        (holiday-fixed  2 14 "Valentinstag")
+        (holiday-easter-etc 1 "Ostermontag (frei)")
+        (holiday-easter-etc -46 "Aschermittwoch")
+        (holiday-easter-etc -2 "Karfreitag")
+        (holiday-fixed  5  1 "Österreichischer Staatsfeiertag (frei)")
+        (holiday-easter-etc 39 "Christi Himmelfahrt (frei)")
+        (holiday-easter-etc 50 "Pfingstmontag (frei)")
+        (holiday-easter-etc 60 "Fronleichnam (frei)")
+        (holiday-float 5 0 2 "Muttertag")
+        (holiday-float 6 0 2 "Vatertag")
+        (holiday-fixed  8 15 "Mariä Himmelfahrt (frei)")
+        (holiday-fixed 10 26 "Nationalfeiertag (frei)")
+        (holiday-fixed 11  1 "Allerheiligen (frei)")
+        (holiday-fixed 12  8 "Maria Empfängnis (frei)")
+        (holiday-fixed 12 24 "Heiliger Abend")
+        (holiday-fixed 12 25 "Erster Weihnachtstag (frei)")
+        (holiday-fixed 12 26 "Zweiter Weihnachtstag (frei)")))
+
+(setq calendar-holidays (append holiday-local-holidays holiday-other-holidays))
+#+end_src
+
+Setup org-capture:
+
+#+begin_src emacs-lisp
+(setq org-capture-bookmark nil
+      org-capture-templates
+      '(("i" "Inbox" entry (file org-default-notes-file)
+         "* %?" :empty-lines-before 1)))
+
+(defun fw/org-capture-inbox ()
+  "Opens the `org-capture' inbox template."
+  (interactive)
+  (org-capture nil "i"))
+#+end_src
+
+Basic agenda configuration with a custom agenda view:
+
+#+begin_src emacs-lisp
+(setq org-agenda-custom-commands
+      '(("." "Overview"
+         ((agenda ""
+                  ((org-agenda-overriding-header "Kalender\n")
+                   (org-agenda-prefix-format "%-2i %-12:c%?-12t% s")
+                   (org-agenda-sorting-strategy '(todo-state-up))
+                   (org-agenda-time-grid '((daily today require-timed)
+                                           (800 1000 1200 1400 1600 1800 2000)
+                                           " ....."
+                                           "----------------"))
+                   (org-agenda-time-leading-zero t)
+                   (org-agenda-show-future-repeats nil)
+                   (org-agenda-current-time-string "****************")
+                   (org-agenda-scheduled-leaders '("" ""))
+                   (org-agenda-skip-deadline-prewarning-if-scheduled t)))
+          (todo ""
+                ((org-agenda-overriding-header "\nOffen\n")
+                 (org-agenda-block-separator nil)
+                 (org-agenda-prefix-format "%-2i %-12:c%?-12t% s")
+                 (org-agenda-sorting-strategy '(todo-state-up))
+                 (org-agenda-todo-ignore-deadlines 'all)
+                 (org-agenda-todo-ignore-scheduled 'all)))))))
+
+(defun fw/org-overview ()
+  "Show my inbox and custom org-agenda."
+  (interactive)
+  (delete-other-windows)
+  (find-file org-default-notes-file)
+  (org-agenda nil "."))
+#+end_src
+
+** External Packages
+
+#+begin_src emacs-lisp
+(setq package-selected-packages
+      '(embark-consult embark consult vertico orderless powershell doom-modeline company magit color-theme-sanityinc-tomorrow))
+#+end_src
+
+*** Theme
+
+#+begin_src emacs-lisp
+(use-package color-theme-sanityinc-tomorrow
+  :config
+  (load-theme 'sanityinc-tomorrow-night t)
+  (set-face-attribute 'org-agenda-structure nil :height 1.25)
+  (set-face-attribute 'org-agenda-date-today nil :slant 'normal :underline t))
+#+end_src
+
+*** Doom Modeline
+
+#+begin_src emacs-lisp
+(use-package doom-modeline
+  :config
+  (doom-modeline-mode 1)
+  (setq doom-modeline-buffer-file-name-style 'relative-from-project
+        doom-modeline-percent-position nil
+        which-func-modes nil))
+#+end_src
+
+*** Nerd Icons
+
+Make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hnf3cw/my_orgmode_agenda_much_better_now_with_category/][this reddit post]]:
+
+#+begin_src emacs-lisp
+(use-package nerd-icons
+  :config
+  (setq org-agenda-category-icon-alist
+        (list `("Inbox" ,(list (nerd-icons-mdicon "nf-md-email")))
+              `("Termin" ,(list (nerd-icons-mdicon "nf-md-calendar")))
+              `("Frist" ,(list (nerd-icons-mdicon "nf-md-shield_alert")))
+              `("Aufgabe" ,(list (nerd-icons-mdicon "nf-md-file_document_outline")))
+              `("Wiederh" ,(list (nerd-icons-mdicon "nf-md-update")))
+              `("Geburtstag" ,(list (nerd-icons-mdicon "nf-md-cake_variant")))
+              `("Wichtig" ,(list (nerd-icons-mdicon "nf-md-star"))))))
+#+end_src
+
+*** Magit
+
+#+begin_src emacs-lisp
+(use-package magit
+  :config
+  (setq git-commit-summary-max-length 50
+        git-commit-fill-column 72
+        magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1
+        magit-save-repository-buffers 'dontask
+        magit-repository-directories '(("~/Projects" . 1))))
+#+end_src
+
+*** Vertico & Orderless
+
+#+begin_src emacs-lisp
+(use-package vertico
+  :config
+  (vertico-mode)
+  (keymap-set vertico-map "DEL" #'vertico-directory-delete-char))
+
+(use-package orderless
+  :config
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+#+end_src
+
+*** Embark & Consult
+
+#+begin_src emacs-lisp
+(use-package embark
+  :config
+  (setq prefix-help-command #'embark-prefix-help-command)
+  (keymap-global-set "<remap> <describe-bindings>" #'embark-bindings))
+
+(use-package consult
+  :config
+  (defun fw/find-file ()
+    "Find files in current project or directory."
+    (interactive)
+    (if (project-current)
+        (project-find-file)
+      (consult-fd)))
+
+  (defun fw/grep ()
+    "Run grep in current project or directory."
+    (interactive)
+    (if (project-current)
+        (consult-git-grep)
+      (consult-grep))))
+
+(use-package embark-consult)
+#+end_src
+
+*** Company
+
+#+begin_src emacs-lisp
+(use-package company
+  :config
+  (setq company-idle-delay 0.1
+        company-minimum-prefix-length 3
+        company-show-numbers t
+        company-dabbrev-downcase nil
+        company-dabbrev-ignore-case nil)
+  (global-company-mode t))
+#+end_src
+
+** Keybindings
+
+#+begin_src emacs-lisp
+(defun fw/split-window-vertically ()
+  "Split the selected window into two vertical windows."
+  (interactive)
+  (split-window-vertically)
+  (other-window 1))
+
+(defun fw/split-window-horizontally ()
+  "Split the selected window into two horizontal windows."
+  (interactive)
+  (split-window-horizontally)
+  (other-window 1))
+
+(define-prefix-command 'fw/project-map)
+(define-prefix-command 'fw/org-map)
+
+(bind-keys :map fw/project-map
+           ("f" . fw/find-file)
+           ("s" . fw/grep)
+           ("b" . project-switch-to-buffer)
+           ("g" . magit-status))
+
+(bind-keys :map fw/org-map
+           ("c" . fw/org-overview)
+           ("i" . fw/org-capture-inbox)
+           ("l" . org-insert-link)
+           ("t" . org-todo)
+           ("s" . org-schedule)
+           ("d" . org-deadline)
+           ("." . org-time-stamp)
+           ("m" . org-insert-structure-template)
+           ("b" . org-babel-tangle))
+
+(bind-keys :prefix "<menu>"
+           :prefix-map fw/main-map
+           ("RET" . embark-act)
+           ("f" . find-file)
+           ("s" . consult-line)
+           ("q" . query-replace)
+           ("l" . consult-goto-line)
+           ("k" . kill-this-buffer)
+           ("b" . consult-buffer)
+           ("h" . mark-whole-buffer)
+           ("0" . delete-window)
+           ("1" . delete-other-windows)
+           ("2" . fw/split-window-vertically)
+           ("3" . fw/split-window-horizontally)
+           ("o" . other-window)
+           ("." . highlight-symbol-at-point)
+           ("r" . highlight-regexp)
+           ("u" . unhighlight-regexp)
+           ("SPC" . rectangle-mark-mode)
+           ("t" . string-rectangle)
+           ("d" . delete-rectangle)
+           ("g" . fw/project-map)
+           ("c" . fw/org-map))
+
+(bind-key* "C-z" 'undo)
+#+end_src
