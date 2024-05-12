@@ -11,16 +11,16 @@ sudo apt -y install numix-gtk-theme numix-icon-theme-circle
 sudo apt -y install emacs git keepassxc dotnet-sdk-8.0 homebank
 sudo apt -y install nvidia-driver-535
 
-xfconf-query -c 'xsettings' -p '/Net/ThemeName' -n -s 'Numix'
-xfconf-query -c 'xsettings' -p '/Net/IconThemeName' -n -s 'Numix-Circle'
-xfconf-query -c 'xfwm4' -p '/general/theme' -n -s 'Numix'
-xfconf-query -c 'xfwm4' -p '/general/placement_ratio' -n -s 100
-xfconf-query -c 'xfce4-keyboard-shortcuts' -p '/commands/custom/<Super>e' -n -s 'emacs'
-xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-home' -n -s 'false'
-xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-trash' -n -s 'false'
-xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-filesystem' -n -s 'false'
-xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-removable' -n -s 'false'
-xfconf-query -c 'xfce4-screensaver' -p '/saver/idle-activation/delay' -n -s 15
+xfconf-query -c 'xsettings' -p '/Net/ThemeName' -s 'Numix'
+xfconf-query -c 'xsettings' -p '/Net/IconThemeName' -s 'Numix-Circle'
+xfconf-query -c 'xfwm4' -p '/general/theme' -s 'Numix'
+xfconf-query -c 'xfwm4' -p '/general/placement_ratio' -s 100
+xfconf-query -c 'xfce4-keyboard-shortcuts' -p '/commands/custom/<Super>e' -s 'emacs'
+xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-home' -s 'false'
+xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-trash' -s 'false'
+xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-filesystem' -s 'false'
+xfconf-query -c 'xfce4-desktop' -p '/desktop-icons/file-icons/show-removable' -s 'false'
+xfconf-query -c 'xfce4-screensaver' -p '/saver/idle-activation/delay' -s 15 -n -t int
 
 sudo locale-gen 'de_DE.UTF-8'
 sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
@@ -34,7 +34,6 @@ emacs -Q --batch -l org --eval '(org-babel-tangle-file "~/Projects/dotfiles/xubu
 . ~/.profile
 my-copy
 my-restore
-my-upgrade
 #+end_src
 
 
@@ -44,6 +43,8 @@ my-upgrade
 :END:
 
 ** Desktop
+
+Create a separate Emacs shortcut to use server mode:
 
 #+begin_src conf :tangle "~/.local/share/applications/emacs.desktop"
 [Desktop Entry]
@@ -63,6 +64,8 @@ StartupWMClass=Emacs
 Keywords=Text;Editor;
 #+end_src
 
+My file manager bookmarks should be:
+
 #+begin_src fundamental :tangle "~/.config/gtk-3.0/bookmarks"
 file:///home/florian/Documents
 file:///home/florian/Downloads
@@ -71,6 +74,8 @@ file:///home/florian/Pictures
 file:///home/florian/Videos
 davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer mailbox.org
 #+end_src
+
+Hide these paths in my home directory:
 
 #+begin_src fundamental :tangle "~/.hidden"
 Games
@@ -107,7 +112,6 @@ Templates
 
 [push]
   followTags = true
-  default = current
 
 [merge]
   conflictStyle = zdiff3
@@ -127,6 +131,8 @@ Templates
 
 ** Chunkyard
 
+Create a new backup:
+
 #+begin_src sh :tangle "~/.local/bin/my-store" :shebang "#!/bin/bash -eu"
 local=~/.chunkyard
 
@@ -142,6 +148,7 @@ directories=(
 includes=(
     '!\~$'
     '!\.uuid$'
+    '!authorized_keys$'
 )
 
 chunkyard store --repository "$local" --paths "${directories[@]}" --includes "${includes[@]}" --prompt 'Store' "$@"
@@ -149,6 +156,8 @@ chunkyard store --repository "$local" --paths "${directories[@]}" --includes "${
 chmod 700 ~/.config/chunkyard
 chmod 600 ~/.config/chunkyard/*
 #+end_src
+
+Restore the latest backup:
 
 #+begin_src sh :tangle "~/.local/bin/my-restore" :shebang "#!/bin/bash -eu"
 local=~/.chunkyard
@@ -160,6 +169,8 @@ chmod 600 ~/.ssh/*
 
 my-store --preview
 #+end_src
+
+Copy backup data from/to external devices:
 
 #+begin_src sh :tangle "~/.local/bin/my-copy" :shebang "#!/bin/bash -eu"
 local=~/.chunkyard
@@ -177,6 +188,7 @@ for remote in "${remotes[@]}"; do
 
     if ! [ -x "$(command -v chunkyard)" ]; then
         cp "$remote/chunkyard" ~/.local/bin/
+        chmod +x ~/.local/bin/chunkyard
     fi
 
     echo "Pushing to: $remote"
@@ -193,14 +205,10 @@ echo "Cleaning up: $local"
 chunkyard keep --repository "$local" --latest '12' --prompt 'Store'
 #+end_src
 
-#+begin_src sh :tangle "~/.local/bin/pls" :shebang "#!/bin/bash -eu"
-root=$(git rev-parse --show-toplevel)
-
-cd "$root"
-./pls "$@"
-#+end_src
-
 ** Homebank
+
+A script to turn my bank statements into csv files that I can import into
+Homebank:
 
 #+begin_src sh :tangle "~/.local/bin/my-homebank" :shebang "#!/bin/bash -eu"
 input=$(find ~/Downloads -name 'meinElba*.csv')
@@ -214,8 +222,8 @@ rm "$output"
 
 ** Updates
 
-This script is written in Python so that it can update itself while its running.
-Doing the same thing in bash has weird consequences:
+A script to update my system. It is written in Python so that it can update
+itself while its running. Doing the same thing in bash has weird consequences:
 
 #+begin_src python :tangle "~/.local/bin/my-upgrade" :shebang "#!/bin/python3"
 import subprocess
@@ -274,7 +282,7 @@ if __name__ == '__main__':
 Make sure that we are running a newer version of Emacs:
 
 #+begin_src emacs-lisp
-(when (version< emacs-version "29.3")
+(when (version< emacs-version "29.1")
   (error "Unsupported version of Emacs"))
 #+end_src
 
@@ -282,14 +290,14 @@ Setup the package manager:
 
 #+begin_src emacs-lisp
 (require 'package)
+(require 'use-package-ensure)
 
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (package-initialize)
 
-(require 'use-package-ensure)
-(setq use-package-always-ensure t)
+(setq package-selected-packages '(embark-consult embark consult vertico orderless powershell doom-modeline company magit color-theme-sanityinc-tomorrow)
+      use-package-always-ensure t)
 #+end_src
 
 ** General
@@ -371,8 +379,6 @@ Set font preferences:
 (set-face-attribute 'default nil :family "Roboto Mono" :foundry "GOOG" :slant 'normal :weight 'medium :height 120 :width 'normal)
 #+end_src
 
-** Text
-
 Set default line length:
 
 #+begin_src emacs-lisp
@@ -422,18 +428,12 @@ General org configuration:
       org-todo-keyword-faces '(("WAIT" . "orange"))
       org-directory "~/Documents/org/"
       org-default-notes-file (concat org-directory "inbox.org")
-      org-agenda-files (list org-directory))
+      org-agenda-files (list org-directory)
+      org-edit-src-content-indentation 0)
 
 (set-locale-environment "de_DE.UTF-8")
 
 (add-hook 'org-mode-hook (lambda () (electric-indent-local-mode -1)))
-#+end_src
-
-Improve org's source code blocks:
-
-#+begin_src emacs-lisp
-(setq org-src-window-setup 'current-window
-      org-edit-src-content-indentation 0)
 #+end_src
 
 The calendar should use my native language and know about my holidays:
@@ -537,11 +537,6 @@ Basic agenda configuration with a custom agenda view:
 
 ** External Packages
 
-#+begin_src emacs-lisp
-(setq package-selected-packages
-      '(embark-consult embark consult vertico orderless powershell doom-modeline company magit color-theme-sanityinc-tomorrow))
-#+end_src
-
 *** Theme
 
 #+begin_src emacs-lisp
@@ -590,6 +585,12 @@ Make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hn
         magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1
         magit-save-repository-buffers 'dontask
         magit-repository-directories '(("~/Projects" . 1))))
+#+end_src
+
+*** PowerShell
+
+#+begin_src emacs-lisp
+(use-package powershell)
 #+end_src
 
 *** Vertico & Orderless
