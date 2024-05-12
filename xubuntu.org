@@ -545,9 +545,7 @@ Basic agenda configuration with a custom agenda view:
   (org-agenda nil "."))
 #+end_src
 
-** External Packages
-
-*** Theme
+** Theme
 
 #+begin_src emacs-lisp
 (use-package color-theme-sanityinc-tomorrow
@@ -557,7 +555,7 @@ Basic agenda configuration with a custom agenda view:
   (set-face-attribute 'org-agenda-date-today nil :slant 'normal :underline t))
 #+end_src
 
-*** Doom Modeline
+** Doom Modeline
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
@@ -568,7 +566,7 @@ Basic agenda configuration with a custom agenda view:
         which-func-modes nil))
 #+end_src
 
-*** Nerd Icons
+** Nerd Icons
 
 Make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hnf3cw/my_orgmode_agenda_much_better_now_with_category/][this reddit post]]:
 
@@ -585,7 +583,7 @@ Make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hn
               `("Wichtig" ,(list (nerd-icons-mdicon "nf-md-star"))))))
 #+end_src
 
-*** Magit
+** Magit
 
 #+begin_src emacs-lisp
 (use-package magit
@@ -597,13 +595,13 @@ Make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hn
         magit-repository-directories '(("~/Projects" . 1))))
 #+end_src
 
-*** PowerShell
+** PowerShell
 
 #+begin_src emacs-lisp
 (use-package powershell)
 #+end_src
 
-*** Vertico & Orderless
+** Vertico & Orderless
 
 #+begin_src emacs-lisp
 (use-package vertico
@@ -618,7 +616,7 @@ Make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hn
         completion-category-overrides '((file (styles partial-completion)))))
 #+end_src
 
-*** Embark & Consult
+** Embark & Consult
 
 #+begin_src emacs-lisp
 (use-package embark
@@ -645,7 +643,7 @@ Make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hn
 (use-package embark-consult)
 #+end_src
 
-*** Company
+** Company
 
 #+begin_src emacs-lisp
 (use-package company
