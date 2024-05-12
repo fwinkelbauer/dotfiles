@@ -44,12 +44,12 @@ my-restore
 
 ** Desktop
 
-Create a separate Emacs shortcut to use server mode:
+Tweak Emacs shortcuts and use server mode:
 
 #+begin_src conf :tangle "~/.local/share/applications/emacs.desktop"
 [Desktop Entry]
 Version=1.0
-Name=Emacs (GUI)
+Name=Emacs
 GenericName=Text Editor
 Comment=GNU Emacs is an extensible, customizable text editor - and more
 MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
@@ -62,6 +62,16 @@ Categories=Utility;Development;TextEditor;
 StartupNotify=true
 StartupWMClass=Emacs
 Keywords=Text;Editor;
+#+end_src
+
+#+begin_src conf :tangle "~/.local/share/applications/emacsclient.desktop"
+[Desktop Entry]
+Hidden=true
+#+end_src
+
+#+begin_src conf :tangle "~/.local/share/applications/emacs-term.desktop"
+[Desktop Entry]
+Hidden=true
 #+end_src
 
 My file manager bookmarks should be:
