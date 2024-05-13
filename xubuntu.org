@@ -232,53 +232,13 @@ rm "$output"
 
 ** Updates
 
-A script to update my system. It is written in Python so that it can update
-itself while its running. Doing the same thing in bash has weird consequences:
+A script to update my system:
 
-#+begin_src python :tangle "~/.local/bin/my-upgrade" :shebang "#!/bin/python3"
-import subprocess
-import os
-
-
-def announce(msg):
-    print()
-    print(msg)
-    print('========================================')
-
-
-def run(args):
-    subprocess.run(args, shell=True, check=True)
-
-
-def apt():
-    run('sudo apt update')
-    run('sudo apt upgrade -y')
-    run('sudo apt auto-remove -y')
-
-
-def snap():
-    run('sudo snap refresh')
-
-
-def git(directory):
-    run(f'git -C {directory} pull')
-
-
-def tangle(tangle_file):
-    run(f'emacs -Q --batch -l org --eval \'(org-babel-tangle-file "{tangle_file}")\'')
-
-
-def main():
-    announce('Install updates')
-    apt()
-    snap()
-    announce('Update dotfiles')
-    git('~/Projects/dotfiles')
-    tangle('~/Projects/dotfiles/xubuntu.org')
-
-
-if __name__ == '__main__':
-    main()
+#+begin_src sh :tangle "~/.local/bin/my-upgrade" :shebang "#!/bin/bash -eu"
+sudo apt update
+sudo apt upgrade -y
+sudo apt auto-remove -y
+sudo snap refresh
 #+end_src
 
 
