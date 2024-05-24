@@ -388,6 +388,15 @@ Use single space after a sentence:
 (setq sentence-end-double-space nil)
 #+end_src
 
+** Dired
+
+#+begin_src emacs-lisp
+(add-hook 'dired-mode-hook #'dired-hide-details-mode)
+(setq dired-auto-revert-buffer t
+      dired-dwim-target t
+      dired-listing-switches "-Alhv --time-style=+%Y-%m-%d --group-directories-first --ignore=.git")
+#+end_src
+
 ** Org
 
 General org configuration:
