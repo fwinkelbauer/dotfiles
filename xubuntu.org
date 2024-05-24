@@ -124,6 +124,7 @@ Templates
   followTags = true
 
 [merge]
+  ff = only
   conflictStyle = zdiff3
 
 [log]
