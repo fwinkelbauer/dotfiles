@@ -600,7 +600,7 @@ Make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hn
     (interactive)
     (if (project-current)
         (project-find-file)
-      (consult-fd)))
+      (consult-find)))
 
   (defun fw/grep ()
     "Run grep in current project or directory."
