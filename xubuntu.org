@@ -9,7 +9,6 @@ This is my setup script for Xubuntu 24.04:
 sudo apt update
 sudo apt -y install numix-gtk-theme numix-icon-theme-circle
 sudo apt -y install emacs git keepassxc dotnet-sdk-8.0 homebank
-sudo apt -y install nvidia-driver-535
 
 xfconf-query -c 'xsettings' -p '/Net/ThemeName' -s 'Numix'
 xfconf-query -c 'xsettings' -p '/Net/IconThemeName' -s 'Numix-Circle'
