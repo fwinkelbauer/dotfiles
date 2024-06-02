@@ -166,7 +166,7 @@ includes=(
     '!authorized_keys$'
 )
 
-chunkyard store --repository "$local" --paths "${directories[@]}" --includes "${includes[@]}" "$@"
+chunkyard store --repository "$local" --paths "${directories[@]}" --includes "${includes[@]}" --prompt 'Store' "$@"
 
 chmod 700 ~/.config/chunkyard
 chmod 600 ~/.config/chunkyard/*
@@ -177,7 +177,7 @@ Restore the latest backup:
 #+begin_src sh :tangle "~/.local/bin/my-restore" :shebang "#!/bin/bash -eu"
 local=~/.chunkyard
 
-chunkyard restore --repository "$local" --directory ~/ "$@"
+chunkyard restore --repository "$local" --directory ~/ --prompt 'Store' "$@"
 
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
@@ -207,17 +207,17 @@ for remote in "${remotes[@]}"; do
     fi
 
     echo "Pushing to: $remote"
-    chunkyard copy --repository "$local" --destination "$remote"
+    chunkyard copy --repository "$local" --destination "$remote" --prompt 'Store'
 
     echo "Pulling from: $remote"
-    chunkyard copy --repository "$remote" --destination "$local"
+    chunkyard copy --repository "$remote" --destination "$local" --prompt 'Store'
 
     echo "Cleaning up: $remote"
-    chunkyard keep --repository "$remote" --latest '400'
+    chunkyard keep --repository "$remote" --latest '400' --prompt 'Store'
 done
 
 echo "Cleaning up: $local"
-chunkyard keep --repository "$local" --latest '200'
+chunkyard keep --repository "$local" --latest '200' --prompt 'Store'
 #+end_src
 
 ** Homebank
