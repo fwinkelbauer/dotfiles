@@ -8,7 +8,7 @@ This is my setup script for Xubuntu 24.04:
 #+begin_src sh
 sudo apt update
 sudo apt -y install numix-gtk-theme numix-icon-theme-circle
-sudo apt -y install emacs git keepassxc dotnet-sdk-8.0 homebank
+sudo apt -y install emacs git keepassxc homebank dotnet-sdk-8.0
 
 xfconf-query -c 'xsettings' -p '/Net/ThemeName' -s 'Numix'
 xfconf-query -c 'xsettings' -p '/Net/IconThemeName' -s 'Numix-Circle'
@@ -151,7 +151,7 @@ Create a new backup:
 #+begin_src sh :tangle "~/.local/bin/my-store" :shebang "#!/bin/bash -eu"
 local=~/.chunkyard
 
-directories=(
+paths=(
     ~/.local/share/fonts
     ~/.ssh
     ~/Documents
@@ -166,7 +166,7 @@ includes=(
     '!authorized_keys$'
 )
 
-chunkyard store --repository "$local" --paths "${directories[@]}" --includes "${includes[@]}" --prompt 'Store' "$@"
+chunkyard store --repository "$local" --paths "${paths[@]}" --includes "${includes[@]}" --prompt 'Store' "$@"
 
 chmod 700 ~/.config/chunkyard
 chmod 600 ~/.config/chunkyard/*
