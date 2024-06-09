@@ -166,10 +166,7 @@ includes=(
     '!authorized_keys$'
 )
 
-chunkyard store --repository "$local" --paths "${paths[@]}" --includes "${includes[@]}" --prompt 'Store' "$@"
-
-chmod 700 ~/.config/chunkyard
-chmod 600 ~/.config/chunkyard/*
+chunkyard store --repository "$local" --paths "${paths[@]}" --includes "${includes[@]}" --prompt 'Libsecret' "$@"
 #+end_src
 
 Restore the latest backup:
@@ -177,7 +174,7 @@ Restore the latest backup:
 #+begin_src sh :tangle "~/.local/bin/my-restore" :shebang "#!/bin/bash -eu"
 local=~/.chunkyard
 
-chunkyard restore --repository "$local" --directory ~/ --prompt 'Store' "$@"
+chunkyard restore --repository "$local" --directory ~/ --prompt 'Libsecret' "$@"
 
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
@@ -207,17 +204,17 @@ for remote in "${remotes[@]}"; do
     fi
 
     echo "Pushing to: $remote"
-    chunkyard copy --repository "$local" --destination "$remote" --prompt 'Store'
+    chunkyard copy --repository "$local" --destination "$remote" --prompt 'Libsecret'
 
     echo "Pulling from: $remote"
-    chunkyard copy --repository "$remote" --destination "$local" --prompt 'Store'
+    chunkyard copy --repository "$remote" --destination "$local" --prompt 'Libsecret'
 
     echo "Cleaning up: $remote"
-    chunkyard keep --repository "$remote" --latest '200' --prompt 'Store'
+    chunkyard keep --repository "$remote" --latest '200' --prompt 'Libsecret'
 done
 
 echo "Cleaning up: $local"
-chunkyard keep --repository "$local" --latest '100' --prompt 'Store'
+chunkyard keep --repository "$local" --latest '100' --prompt 'Libsecret'
 #+end_src
 
 ** Homebank
