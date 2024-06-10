@@ -649,6 +649,7 @@ Make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hn
            ("f" . fw/find-file)
            ("s" . fw/grep)
            ("b" . project-switch-to-buffer)
+           ("d" . magit-file-dispatch)
            ("g" . magit-status))
 
 (bind-keys :map fw/org-map
