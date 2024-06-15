@@ -489,7 +489,6 @@ Basic agenda configuration with a custom agenda view:
       '(("." "Overview"
          ((agenda ""
                   ((org-agenda-overriding-header "Kalender\n")
-                   (org-agenda-prefix-format "%-2i %-12:c%?-12t% s")
                    (org-agenda-sorting-strategy '(todo-state-up))
                    (org-agenda-time-grid '((daily today require-timed)
                                            (800 1000 1200 1400 1600 1800 2000)
@@ -503,7 +502,6 @@ Basic agenda configuration with a custom agenda view:
           (todo ""
                 ((org-agenda-overriding-header "\nOffen\n")
                  (org-agenda-block-separator nil)
-                 (org-agenda-prefix-format "%-2i %-12:c%?-12t% s")
                  (org-agenda-sorting-strategy '(todo-state-up))
                  (org-agenda-todo-ignore-deadlines 'all)
                  (org-agenda-todo-ignore-scheduled 'all)))))))
@@ -535,23 +533,6 @@ Basic agenda configuration with a custom agenda view:
   (setq doom-modeline-buffer-file-name-style 'relative-from-project
         doom-modeline-percent-position nil
         which-func-modes nil))
-#+end_src
-
-** Nerd Icons
-
-Make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hnf3cw/my_orgmode_agenda_much_better_now_with_category/][this reddit post]]:
-
-#+begin_src emacs-lisp
-(use-package nerd-icons
-  :config
-  (setq org-agenda-category-icon-alist
-        (list `("Inbox" ,(list (nerd-icons-mdicon "nf-md-email")))
-              `("Termin" ,(list (nerd-icons-mdicon "nf-md-calendar")))
-              `("Frist" ,(list (nerd-icons-mdicon "nf-md-shield_alert")))
-              `("Aufgabe" ,(list (nerd-icons-mdicon "nf-md-file_document_outline")))
-              `("Wiederh" ,(list (nerd-icons-mdicon "nf-md-update")))
-              `("Geburtstag" ,(list (nerd-icons-mdicon "nf-md-cake_variant")))
-              `("Wichtig" ,(list (nerd-icons-mdicon "nf-md-star"))))))
 #+end_src
 
 ** Magit
