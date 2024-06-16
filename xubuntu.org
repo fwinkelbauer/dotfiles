@@ -276,7 +276,7 @@ Setup the package manager:
 
 (package-initialize)
 
-(setq package-selected-packages '(embark-consult embark consult vertico orderless powershell doom-modeline company magit color-theme-sanityinc-tomorrow)
+(setq package-selected-packages '(embark-consult embark consult vertico orderless doom-modeline company magit color-theme-sanityinc-tomorrow)
       use-package-always-ensure t)
 #+end_src
 
@@ -591,12 +591,6 @@ Basic agenda configuration with a custom agenda view:
         magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1
         magit-save-repository-buffers 'dontask
         magit-repository-directories '(("~/Projects" . 1))))
-#+end_src
-
-** PowerShell
-
-#+begin_src emacs-lisp
-(use-package powershell)
 #+end_src
 
 ** Vertico & Orderless
