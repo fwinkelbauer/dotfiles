@@ -9,7 +9,6 @@ This is my setup script for Xubuntu 24.04:
 sudo apt update
 sudo apt -y install numix-gtk-theme numix-icon-theme-circle
 sudo apt -y install emacs git keepassxc homebank dotnet-sdk-8.0
-sudo apt -y install isync mu4e
 
 xfconf-query -c 'xsettings' -p '/Net/ThemeName' -s 'Numix'
 xfconf-query -c 'xsettings' -p '/Net/IconThemeName' -s 'Numix-Circle'
@@ -34,11 +33,6 @@ emacs -Q --batch -l org --eval '(org-babel-tangle-file "~/Projects/dotfiles/xubu
 . ~/.profile
 my-copy
 my-restore
-
-mkdir ~/Mail
-mbsync -a
-mu init --maildir=~/Mail --my-address=your.name@mailbox.org
-mu index
 #+end_src
 
 
@@ -158,9 +152,7 @@ Create a new backup:
 local=~/.chunkyard
 
 paths=(
-    ~/.authinfo.gpg
     ~/.local/share/fonts
-    ~/.mbsyncrc
     ~/.ssh
     ~/Documents
     ~/Music
@@ -524,44 +516,6 @@ Basic agenda configuration with a custom agenda view:
   (org-agenda nil "."))
 #+end_src
 
-** Mail
-
-#+begin_src emacs-lisp
-(use-package mu4e
-  :config
-  (setq user-full-name "Florian Winkelbauer"
-        user-mail-address "mail@florianwinkelbauer.com"
-        message-kill-buffer-on-exit t
-        mu4e-headers-date-format "%F"
-        mu4e-read-option-use-builtin nil
-        mu4e-completing-read-function 'completing-read
-        mu4e-confirm-quit nil
-        mu4e-change-filenames-when-moving t
-        mu4e-get-mail-command "mbsync -a"
-        mu4e-attachment-dir "~/Downloads"
-        mu4e-drafts-folder "/Drafts"
-        mu4e-sent-folder "/Sent"
-        mu4e-refile-folder "/Archive"
-        mu4e-trash-folder "/Trash"
-        mu4e-maildir-shortcuts '((:maildir "/Inbox" :key ?i)
-                                 (:maildir "/Sent" :key ?s)
-                                 (:maildir "/Trash" :key ?t)
-                                 (:maildir "/Drafts" :key ?d)
-                                 (:maildir "/Junk" :key ?j)
-                                 (:maildir "/Archive" :key ?a))
-        smtpmail-smtp-server "smtp.mailbox.org"
-        smtpmail-smtp-service 587
-        smtpmail-stream-type 'starttls
-        send-mail-function 'smtpmail-send-it))
-
-(defun fw/lookup-password (&rest keys)
-  "Retrieve password using `auth-source-search'"
-  (let ((result (apply #'auth-source-search keys)))
-    (if result
-        (funcall (plist-get (car result) :secret))
-      nil)))
-#+end_src
-
 ** Theme
 
 #+begin_src emacs-lisp
@@ -724,7 +678,6 @@ Make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hn
            ("SPC" . rectangle-mark-mode)
            ("t" . string-rectangle)
            ("d" . delete-rectangle)
-           ("m" . mu4e)
            ("g" . fw/project-map)
            ("c" . fw/org-map))
 
