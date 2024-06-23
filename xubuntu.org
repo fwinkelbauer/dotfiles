@@ -3,12 +3,17 @@
 
 * Setup
 
-This is my setup script for Xubuntu 24.04:
+This is my setup script for Xubuntu Minimal 24.04:
 
 #+begin_src sh
 sudo apt update
+sudo apt -y install flatpak
 sudo apt -y install numix-gtk-theme numix-icon-theme-circle
+sudo apt -y install libreoffice engrampa ristretto thunar-archive-plugin
 sudo apt -y install emacs git keepassxc homebank dotnet-sdk-8.0
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak -y install flathub org.mozilla.firefox
+flatpak -y install flathub org.mozilla.Thunderbird
 
 xfconf-query -c 'xsettings' -p '/Net/ThemeName' -s 'Numix'
 xfconf-query -c 'xsettings' -p '/Net/IconThemeName' -s 'Numix-Circle'
@@ -196,10 +201,17 @@ rm "$output"
 A script to update my system:
 
 #+begin_src sh :tangle "~/.local/bin/my-upgrade" :shebang "#!/bin/bash -eu"
+echo 'apt'
+echo '========================================'
 sudo apt update
 sudo apt upgrade -y
 sudo apt auto-remove -y
+echo 'snap'
+echo '========================================'
 sudo snap refresh
+echo 'flatpak'
+echo '========================================'
+flatpak update
 #+end_src
 
 
