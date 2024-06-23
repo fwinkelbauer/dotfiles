@@ -348,7 +348,7 @@ Make scrolling smoother:
 Set font preferences:
 
 #+begin_src emacs-lisp
-(set-face-attribute 'default nil :family "Roboto Mono" :foundry "GOOG" :slant 'normal :weight 'medium :height 120 :width 'normal)
+(set-face-attribute 'default nil :family "JetBrains Mono" :foundry "JB" :slant 'normal :weight 'medium :height 120 :width 'normal)
 #+end_src
 
 Set default line length:
