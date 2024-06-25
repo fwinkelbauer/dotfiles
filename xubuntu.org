@@ -282,7 +282,7 @@ Hide startup message and show an empty scratch buffer:
 Increase the garbage collection threshold:
 
 #+begin_src emacs-lisp
-(setq gc-cons-threshold 20000000)
+(setq gc-cons-threshold (* 128 1024 1024))
 #+end_src
 
 Always start in full screen:
@@ -364,26 +364,64 @@ Use single space after a sentence:
 
 ** Org
 
-General org configuration:
-
 #+begin_src emacs-lisp
-(require 'org)
+(use-package org
+  :config
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)"))
+        org-todo-keyword-faces '(("WAIT" . "orange"))
+        org-directory "~/Documents/org/"
+        org-default-notes-file (concat org-directory "inbox.org")
+        org-agenda-files (list org-directory)
+        org-edit-src-content-indentation 0)
 
-(setq org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)"))
-      org-todo-keyword-faces '(("WAIT" . "orange"))
-      org-directory "~/Documents/org/"
-      org-default-notes-file (concat org-directory "inbox.org")
-      org-agenda-files (list org-directory)
-      org-edit-src-content-indentation 0)
+  (add-hook 'org-mode-hook (lambda () (electric-indent-local-mode -1)))
 
-(set-locale-environment "de_DE.UTF-8")
+  (setq org-capture-bookmark nil
+        org-capture-templates
+        '(("i" "Inbox" entry (file org-default-notes-file)
+           "* %?" :empty-lines-before 1)))
 
-(add-hook 'org-mode-hook (lambda () (electric-indent-local-mode -1)))
+  (defun fw/org-capture-inbox ()
+    "Opens the `org-capture' inbox template."
+    (interactive)
+    (org-capture nil "i"))
+
+  (setq org-agenda-custom-commands
+        '(("." "Overview"
+           ((agenda ""
+                    ((org-agenda-overriding-header "Kalender\n")
+                     (org-agenda-prefix-format "%-2i %-12:c%?-12t% s")
+                     (org-agenda-sorting-strategy '(todo-state-up))
+                     (org-agenda-time-grid '((daily today require-timed)
+                                             (800 1000 1200 1400 1600 1800 2000)
+                                             " ....."
+                                             "----------------"))
+                     (org-agenda-time-leading-zero t)
+                     (org-agenda-show-future-repeats nil)
+                     (org-agenda-current-time-string "****************")
+                     (org-agenda-scheduled-leaders '("" ""))
+                     (org-agenda-skip-deadline-prewarning-if-scheduled t)))
+            (todo ""
+                  ((org-agenda-overriding-header "\nOffen\n")
+                   (org-agenda-block-separator nil)
+                   (org-agenda-prefix-format "%-2i %-12:c%?-12t% s")
+                   (org-agenda-sorting-strategy '(todo-state-up))
+                   (org-agenda-todo-ignore-deadlines 'all)
+                   (org-agenda-todo-ignore-scheduled 'all)))))))
+
+  (defun fw/org-overview ()
+    "Show my inbox and custom org-agenda."
+    (interactive)
+    (delete-other-windows)
+    (find-file org-default-notes-file)
+    (org-agenda nil ".")))
 #+end_src
 
 The calendar should use my native language and know about my holidays:
 
 #+begin_src emacs-lisp
+(set-locale-environment "de_DE.UTF-8")
+
 (setq calendar-week-start-day 1
       calendar-day-name-array ["Sonntag" "Montag" "Dienstag" "Mittwoch"
                                "Donnerstag" "Freitag" "Samstag"]
@@ -409,75 +447,27 @@ The calendar should use my native language and know about my holidays:
                             ("samstag" . 6)))
 
 (setq holiday-local-holidays
-      '((holiday-fixed  1  1 "Neujahr (frei)")
-        (holiday-fixed  1  6 "Heilige Drei Könige (frei)")
-        (holiday-fixed  2 14 "Valentinstag")
+      '((holiday-fixed 1 1 "Neujahr (frei)")
+        (holiday-fixed 1 6 "Heilige Drei Könige (frei)")
+        (holiday-fixed 2 14 "Valentinstag")
         (holiday-easter-etc 1 "Ostermontag (frei)")
         (holiday-easter-etc -46 "Aschermittwoch")
         (holiday-easter-etc -2 "Karfreitag")
-        (holiday-fixed  5  1 "Österreichischer Staatsfeiertag (frei)")
+        (holiday-fixed 5 1 "Österreichischer Staatsfeiertag (frei)")
         (holiday-easter-etc 39 "Christi Himmelfahrt (frei)")
         (holiday-easter-etc 50 "Pfingstmontag (frei)")
         (holiday-easter-etc 60 "Fronleichnam (frei)")
         (holiday-float 5 0 2 "Muttertag")
         (holiday-float 6 0 2 "Vatertag")
-        (holiday-fixed  8 15 "Mariä Himmelfahrt (frei)")
+        (holiday-fixed 8 15 "Mariä Himmelfahrt (frei)")
         (holiday-fixed 10 26 "Nationalfeiertag (frei)")
-        (holiday-fixed 11  1 "Allerheiligen (frei)")
-        (holiday-fixed 12  8 "Maria Empfängnis (frei)")
+        (holiday-fixed 11 1 "Allerheiligen (frei)")
+        (holiday-fixed 12 8 "Maria Empfängnis (frei)")
         (holiday-fixed 12 24 "Heiliger Abend")
         (holiday-fixed 12 25 "Erster Weihnachtstag (frei)")
         (holiday-fixed 12 26 "Zweiter Weihnachtstag (frei)")))
 
 (setq calendar-holidays (append holiday-local-holidays holiday-other-holidays))
-#+end_src
-
-Setup org-capture:
-
-#+begin_src emacs-lisp
-(setq org-capture-bookmark nil
-      org-capture-templates
-      '(("i" "Inbox" entry (file org-default-notes-file)
-         "* %?" :empty-lines-before 1)))
-
-(defun fw/org-capture-inbox ()
-  "Opens the `org-capture' inbox template."
-  (interactive)
-  (org-capture nil "i"))
-#+end_src
-
-Basic agenda configuration with a custom agenda view:
-
-#+begin_src emacs-lisp
-(setq org-agenda-custom-commands
-      '(("." "Overview"
-         ((agenda ""
-                  ((org-agenda-overriding-header "Kalender\n")
-                   (org-agenda-prefix-format "%-2i %-12:c%?-12t% s")
-                   (org-agenda-sorting-strategy '(todo-state-up))
-                   (org-agenda-time-grid '((daily today require-timed)
-                                           (800 1000 1200 1400 1600 1800 2000)
-                                           " ....."
-                                           "----------------"))
-                   (org-agenda-time-leading-zero t)
-                   (org-agenda-show-future-repeats nil)
-                   (org-agenda-current-time-string "****************")
-                   (org-agenda-scheduled-leaders '("" ""))
-                   (org-agenda-skip-deadline-prewarning-if-scheduled t)))
-          (todo ""
-                ((org-agenda-overriding-header "\nOffen\n")
-                 (org-agenda-block-separator nil)
-                 (org-agenda-prefix-format "%-2i %-12:c%?-12t% s")
-                 (org-agenda-sorting-strategy '(todo-state-up))
-                 (org-agenda-todo-ignore-deadlines 'all)
-                 (org-agenda-todo-ignore-scheduled 'all)))))))
-
-(defun fw/org-overview ()
-  "Show my inbox and custom org-agenda."
-  (interactive)
-  (delete-other-windows)
-  (find-file org-default-notes-file)
-  (org-agenda nil "."))
 #+end_src
 
 ** Theme
@@ -502,8 +492,6 @@ Basic agenda configuration with a custom agenda view:
 #+end_src
 
 ** Nerd Icons
-
-Make my org-agenda pretty. Based on [[https://old.reddit.com/r/emacs/comments/hnf3cw/my_orgmode_agenda_much_better_now_with_category/][this reddit post]]:
 
 #+begin_src emacs-lisp
 (use-package nerd-icons
