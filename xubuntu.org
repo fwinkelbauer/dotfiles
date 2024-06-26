@@ -590,6 +590,7 @@ The calendar should use my native language and know about my holidays:
 
 (define-prefix-command 'fw/project-map)
 (define-prefix-command 'fw/org-map)
+(define-prefix-command 'fw/x-map)
 
 (bind-keys :map fw/project-map
            ("f" . fw/find-file)
@@ -608,6 +609,10 @@ The calendar should use my native language and know about my holidays:
            ("." . org-time-stamp)
            ("m" . org-insert-structure-template)
            ("b" . org-babel-tangle))
+
+(bind-keys :map fw/x-map
+           ("s" . save-buffer)
+           ("c" . save-buffers-kill-terminal))
 
 (bind-keys :prefix "<menu>"
            :prefix-map fw/main-map
@@ -631,7 +636,10 @@ The calendar should use my native language and know about my holidays:
            ("t" . string-rectangle)
            ("d" . delete-rectangle)
            ("g" . fw/project-map)
-           ("c" . fw/org-map))
+           ("c" . fw/org-map)
+           ("x" . fw/x-map))
 
 (bind-key* "C-z" 'undo)
+(unbind-key "C-x C-s")
+(unbind-key "C-x C-c")
 #+end_src
