@@ -51,6 +51,7 @@ my-restore
 #+begin_src conf :tangle "~/.config/mimeapps.list"
 [Default Applications]
 text/plain=emacs.desktop
+application/pdf=org.mozilla.firefox.desktop
 #+end_src
 
 Hide these paths in my home directory:
