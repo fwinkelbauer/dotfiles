@@ -241,7 +241,7 @@ echo '========================================'
 sudo snap refresh
 echo 'flatpak'
 echo '========================================'
-flatpak update
+flatpak update -y
 #+end_src
 
 
