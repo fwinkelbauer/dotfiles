@@ -54,7 +54,36 @@ text/plain=emacs.desktop
 application/pdf=org.mozilla.firefox.desktop
 #+end_src
 
-Hide these paths in my home directory:
+#+begin_src fundamental :tangle "~/.config/xfce4/helpers.rc"
+WebBrowser=custom-WebBrowser
+MailReader=custom-MailReader
+#+end_src
+
+#+begin_src conf :tangle "~/.local/share/xfce4/helpers/custom-WebBrowser.desktop"
+[Desktop Entry]
+NoDisplay=true
+Version=1.0
+Encoding=UTF-8
+Type=X-XFCE-Helper
+X-XFCE-Category=WebBrowser
+X-XFCE-CommandsWithParameter=flatpak run org.mozilla.firefox "%s"
+Icon=flatpak
+Name=flatpak
+X-XFCE-Commands=flatpak run org.mozilla.firefox
+#+end_src
+
+#+begin_src conf :tangle "~/.local/share/xfce4/helpers/custom-MailReader.desktop"
+[Desktop Entry]
+NoDisplay=true
+Version=1.0
+Encoding=UTF-8
+Type=X-XFCE-Helper
+X-XFCE-Category=MailReader
+X-XFCE-CommandsWithParameter=flatpak run org.mozilla.Thunderbird "%s"
+Icon=flatpak
+Name=flatpak
+X-XFCE-Commands=flatpak run org.mozilla.Thunderbird
+#+end_src
 
 #+begin_src fundamental :tangle "~/.hidden"
 Games
