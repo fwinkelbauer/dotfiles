@@ -506,7 +506,8 @@ The calendar should use my native language and know about my holidays:
 (use-package color-theme-sanityinc-tomorrow
   :config
   (load-theme 'sanityinc-tomorrow-night t)
-  (set-face-attribute 'org-agenda-structure nil :height 1.25))
+  (set-face-attribute 'org-agenda-structure nil :height 1.25)
+  (set-face-attribute 'org-agenda-date-today nil :slant 'normal :underline t))
 #+end_src
 
 ** Doom Modeline
