@@ -85,13 +85,6 @@ Name=flatpak
 X-XFCE-Commands=flatpak run org.mozilla.Thunderbird
 #+end_src
 
-#+begin_src fundamental :tangle "~/.hidden"
-Games
-snap
-Public
-Templates
-#+end_src
-
 ** Git
 
 #+begin_src conf :tangle "~/.config/git/config"
