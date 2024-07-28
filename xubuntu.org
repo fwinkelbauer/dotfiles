@@ -8,8 +8,7 @@ This is my setup script for Xubuntu Minimal 24.04:
 #+begin_src sh
 sudo apt update
 sudo apt -y install flatpak
-sudo apt -y install numix-gtk-theme numix-icon-theme-circle
-sudo apt -y install libreoffice engrampa ristretto thunar-archive-plugin
+sudo apt -y install numix-gtk-theme numix-icon-theme-circle libreoffice engrampa ristretto thunar-archive-plugin
 sudo apt -y install emacs git keepassxc homebank dotnet-sdk-8.0
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak -y install flathub org.mozilla.firefox
