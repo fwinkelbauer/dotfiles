@@ -629,7 +629,8 @@ The calendar should use my native language and know about my holidays:
            ("t" . org-todo)
            ("s" . org-schedule)
            ("d" . org-deadline)
-           ("." . org-time-stamp)
+           ("." . org-timestamp)
+           (":" . org-timestamp-inactive)
            ("m" . org-insert-structure-template)
            ("b" . org-babel-tangle))
 
