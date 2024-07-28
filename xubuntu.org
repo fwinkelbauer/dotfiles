@@ -384,6 +384,17 @@ Use single space after a sentence:
       dired-listing-switches "-Alhv --time-style=+%Y-%m-%d --group-directories-first --ignore=.git")
 #+end_src
 
+#+begin_src emacs-lisp
+(defun fw/dired-archive ()
+  "Open dired for ~/Downloads and ~/Documents/archive"
+  (interactive)
+  (delete-other-windows)
+  (dired "~/Downloads")
+  (fw/split-window-horizontally)
+  (dired "~/Documents/archive")
+  (other-window 1))
+#+end_src
+
 ** Org
 
 #+begin_src emacs-lisp
@@ -640,6 +651,7 @@ The calendar should use my native language and know about my holidays:
 (bind-keys :prefix "<menu>"
            :prefix-map fw/main-map
            ("RET" . embark-act)
+           ("a" . fw/dired-archive)
            ("f" . find-file)
            ("s" . consult-line)
            ("q" . query-replace)
