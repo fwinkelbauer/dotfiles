@@ -164,8 +164,6 @@ chunkyard restore --repository "$local" --directory ~/ --prompt 'Libsecret' "$@"
 
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
-
-my-store --preview
 #+end_src
 
 Copy backup data from/to external devices:
@@ -190,17 +188,11 @@ for remote in "${remotes[@]}"; do
     fi
 
     echo "Pushing to: $remote"
-    chunkyard copy --repository "$local" --destination "$remote" --prompt 'Libsecret'
+    chunkyard copy --repository "$local" --destination "$remote" --prompt 'Libsecret' --last 20
 
     echo "Pulling from: $remote"
-    chunkyard copy --repository "$remote" --destination "$local" --prompt 'Libsecret'
-
-    echo "Cleaning up: $remote"
-    chunkyard keep --repository "$remote" --latest '200' --prompt 'Libsecret'
+    chunkyard copy --repository "$remote" --destination "$local" --prompt 'Libsecret' --last 20
 done
-
-echo "Cleaning up: $local"
-chunkyard keep --repository "$local" --latest '100' --prompt 'Libsecret'
 #+end_src
 
 ** Homebank
