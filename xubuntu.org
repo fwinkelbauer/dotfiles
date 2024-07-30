@@ -400,9 +400,7 @@ Use single space after a sentence:
 #+begin_src emacs-lisp
 (use-package org
   :config
-  (setq org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)"))
-        org-todo-keyword-faces '(("WAIT" . "orange"))
-        org-directory "~/Documents/org/"
+  (setq org-directory "~/Documents/org/"
         org-default-notes-file (concat org-directory "inbox.org")
         org-agenda-files (list org-directory)
         org-edit-src-content-indentation 0)
@@ -544,9 +542,7 @@ The calendar should use my native language and know about my holidays:
 #+begin_src emacs-lisp
 (use-package magit
   :config
-  (setq git-commit-summary-max-length 50
-        git-commit-fill-column 72
-        magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1
+  (setq magit-display-buffer-function 'magit-display-buffer-same-window-except-diff-v1
         magit-save-repository-buffers 'dontask
         magit-repository-directories '(("~/Projects" . 1))))
 #+end_src
@@ -598,10 +594,7 @@ The calendar should use my native language and know about my holidays:
 #+begin_src emacs-lisp
 (use-package company
   :config
-  (setq company-idle-delay 0.1
-        company-minimum-prefix-length 3
-        company-show-numbers t
-        company-dabbrev-downcase nil
+  (setq company-dabbrev-downcase nil
         company-dabbrev-ignore-case nil)
   (global-company-mode t))
 #+end_src
