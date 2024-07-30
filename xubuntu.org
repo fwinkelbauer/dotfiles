@@ -374,9 +374,7 @@ Use single space after a sentence:
 (setq dired-auto-revert-buffer t
       dired-dwim-target t
       dired-listing-switches "-Alhv --time-style=+%Y-%m-%d --group-directories-first --ignore=.git")
-#+end_src
 
-#+begin_src emacs-lisp
 (defun fw/dired-archive ()
   "Open dired for ~/Downloads and ~/Documents/archive"
   (interactive)
@@ -469,26 +467,25 @@ The calendar should use my native language and know about my holidays:
                             ("donnerstag" . 4) ("freitag" . 5)
                             ("samstag" . 6)))
 
-(setq holiday-local-holidays
-      '((holiday-fixed 1 1 "Neujahr (frei)")
-        (holiday-fixed 1 6 "Heilige Drei Könige (frei)")
-        (holiday-fixed 2 14 "Valentinstag")
-        (holiday-easter-etc 1 "Ostermontag (frei)")
-        (holiday-easter-etc -46 "Aschermittwoch")
-        (holiday-easter-etc -2 "Karfreitag")
-        (holiday-fixed 5 1 "Österreichischer Staatsfeiertag (frei)")
-        (holiday-easter-etc 39 "Christi Himmelfahrt (frei)")
-        (holiday-easter-etc 50 "Pfingstmontag (frei)")
-        (holiday-easter-etc 60 "Fronleichnam (frei)")
-        (holiday-float 5 0 2 "Muttertag")
-        (holiday-float 6 0 2 "Vatertag")
-        (holiday-fixed 8 15 "Mariä Himmelfahrt (frei)")
-        (holiday-fixed 10 26 "Nationalfeiertag (frei)")
-        (holiday-fixed 11 1 "Allerheiligen (frei)")
-        (holiday-fixed 12 8 "Maria Empfängnis (frei)")
-        (holiday-fixed 12 24 "Heiliger Abend")
-        (holiday-fixed 12 25 "Erster Weihnachtstag (frei)")
-        (holiday-fixed 12 26 "Zweiter Weihnachtstag (frei)")))
+(setq holiday-local-holidays '((holiday-fixed 1 1 "Neujahr (frei)")
+                               (holiday-fixed 1 6 "Heilige Drei Könige (frei)")
+                               (holiday-fixed 2 14 "Valentinstag")
+                               (holiday-easter-etc 1 "Ostermontag (frei)")
+                               (holiday-easter-etc -46 "Aschermittwoch")
+                               (holiday-easter-etc -2 "Karfreitag")
+                               (holiday-fixed 5 1 "Österreichischer Staatsfeiertag (frei)")
+                               (holiday-easter-etc 39 "Christi Himmelfahrt (frei)")
+                               (holiday-easter-etc 50 "Pfingstmontag (frei)")
+                               (holiday-easter-etc 60 "Fronleichnam (frei)")
+                               (holiday-float 5 0 2 "Muttertag")
+                               (holiday-float 6 0 2 "Vatertag")
+                               (holiday-fixed 8 15 "Mariä Himmelfahrt (frei)")
+                               (holiday-fixed 10 26 "Nationalfeiertag (frei)")
+                               (holiday-fixed 11 1 "Allerheiligen (frei)")
+                               (holiday-fixed 12 8 "Maria Empfängnis (frei)")
+                               (holiday-fixed 12 24 "Heiliger Abend")
+                               (holiday-fixed 12 25 "Erster Weihnachtstag (frei)")
+                               (holiday-fixed 12 26 "Zweiter Weihnachtstag (frei)")))
 
 (setq calendar-holidays (append holiday-local-holidays holiday-other-holidays))
 #+end_src
