@@ -259,121 +259,41 @@ Setup the package manager:
 
 ** General
 
-Simplify confirmation:
-
 #+begin_src emacs-lisp
-(setq use-short-answers t)
-#+end_src
-
-Reload a buffer if it was changed by some other process:
-
-#+begin_src emacs-lisp
-(global-auto-revert-mode t)
-(setq global-auto-revert-non-file-buffers t)
-#+end_src
-
-Disable backup, auto save and lock files:
-
-#+begin_src emacs-lisp
-(setq backup-inhibited t
+(setq global-auto-revert-non-file-buffers t
+      gc-cons-threshold (* 128 1024 1024)
+      use-short-answers t
+      backup-inhibited t
       auto-save-default nil
-      create-lockfiles nil)
-#+end_src
+      create-lockfiles nil
+      visible-bell t
+      inhibit-startup-message t
+      initial-scratch-message nil
+      column-number-mode t
+      sentence-end-double-space nil
+      require-final-newline t)
 
-Disable audio bell:
+(setq-default fill-column 80
+              indent-tabs-mode nil)
 
-#+begin_src emacs-lisp
-(setq visible-bell t)
-#+end_src
-
-Hide startup message and show an empty scratch buffer:
-
-#+begin_src emacs-lisp
-(setq inhibit-startup-message t
-      initial-scratch-message nil)
-#+end_src
-
-Increase the garbage collection threshold:
-
-#+begin_src emacs-lisp
-(setq gc-cons-threshold (* 128 1024 1024))
-#+end_src
-
-Always start in full screen:
-
-#+begin_src emacs-lisp
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
-#+end_src
-
-Hide toolbar:
-
-#+begin_src emacs-lisp
-(tool-bar-mode 0)
-#+end_src
-
-Enable column numbers:
-
-#+begin_src emacs-lisp
-(setq column-number-mode t)
-#+end_src
-
-Make scrolling smoother:
-
-#+begin_src emacs-lisp
 (pixel-scroll-precision-mode)
-#+end_src
-
-Set font preferences:
-
-#+begin_src emacs-lisp
+(tool-bar-mode 0)
 (set-face-attribute 'default nil :family "JetBrains Mono" :foundry "JB" :slant 'normal :weight 'medium :height 120 :width 'normal)
-#+end_src
-
-Set default line length:
-
-#+begin_src emacs-lisp
-(setq-default fill-column 80)
-#+end_src
-
-Overwrite selected text when typing:
-
-#+begin_src emacs-lisp
+(global-auto-revert-mode t)
 (delete-selection-mode t)
-#+end_src
-
-Ensure that files end with a new line and contain no trailing whitespace:
-
-#+begin_src emacs-lisp
-(setq require-final-newline t)
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
-#+end_src
-
-Mark matching pairs of parentheses:
-
-#+begin_src emacs-lisp
 (show-paren-mode t)
-(setq show-paren-delay 0.0)
-#+end_src
-
-Spaces > Tabs:
-
-#+begin_src emacs-lisp
-(setq-default indent-tabs-mode nil)
-#+end_src
-
-Use single space after a sentence:
-
-#+begin_src emacs-lisp
-(setq sentence-end-double-space nil)
 #+end_src
 
 ** Dired
 
 #+begin_src emacs-lisp
 (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+
 (setq dired-auto-revert-buffer t
       dired-dwim-target t
-      dired-listing-switches "-Alhv --time-style=+%Y-%m-%d --group-directories-first --ignore=.git")
+      dired-listing-switches "-alhv --time-style=+%Y-%m-%d --group-directories-first --ignore=.git")
 
 (defun fw/dired-archive ()
   "Open dired for ~/Downloads and ~/Documents/archive"
@@ -547,7 +467,6 @@ The calendar should use my native language and know about my holidays:
 (use-package orderless
   :config
   (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 #+end_src
 
@@ -610,7 +529,6 @@ The calendar should use my native language and know about my holidays:
 (bind-keys :map fw/project-map
            ("f" . fw/find-file)
            ("s" . fw/grep)
-           ("b" . project-switch-to-buffer)
            ("d" . magit-file-dispatch)
            ("g" . magit-status))
 
