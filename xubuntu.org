@@ -84,6 +84,17 @@ Name=flatpak
 X-XFCE-Commands=flatpak run org.mozilla.Thunderbird
 #+end_src
 
+My file manager bookmarks should be:
+
+#+begin_src fundamental :tangle "~/.config/gtk-3.0/bookmarks"
+file:///home/florian/Documents
+file:///home/florian/Downloads
+file:///home/florian/Music
+file:///home/florian/Pictures
+file:///home/florian/Videos
+davs://dav.mailbox.org/servlet/webdav.infostore/Userstore/Florian%20Winkelbauer mailbox.org
+#+end_src
+
 ** Git
 
 #+begin_src conf :tangle "~/.config/git/config"
