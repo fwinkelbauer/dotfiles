@@ -47,11 +47,15 @@ my-restore
 
 ** Desktop
 
+Define default applications:
+
 #+begin_src conf :tangle "~/.config/mimeapps.list"
 [Default Applications]
 text/plain=emacs.desktop
 application/pdf=org.mozilla.firefox.desktop
 #+end_src
+
+Setup web browser and mail reader:
 
 #+begin_src fundamental :tangle "~/.config/xfce4/helpers.rc"
 WebBrowser=custom-WebBrowser
