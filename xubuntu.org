@@ -308,7 +308,7 @@ Setup the package manager:
 
 (setq dired-auto-revert-buffer t
       dired-dwim-target t
-      dired-listing-switches "-alhv --time-style=+%Y-%m-%d --group-directories-first --ignore=.git")
+      dired-listing-switches "-alhv --time-style=+%Y-%m-%d --group-directories-first")
 
 (defun fw/dired-archive ()
   "Open dired for ~/Downloads and ~/Documents/archive"
