@@ -224,9 +224,6 @@ echo '========================================'
 sudo apt update
 sudo apt upgrade -y
 sudo apt auto-remove -y
-echo 'snap'
-echo '========================================'
-sudo snap refresh
 echo 'flatpak'
 echo '========================================'
 flatpak update -y
