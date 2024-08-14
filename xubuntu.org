@@ -319,9 +319,8 @@ Setup the package manager:
   (add-hook 'org-mode-hook (lambda () (electric-indent-local-mode -1)))
 
   (setq org-capture-bookmark nil
-        org-capture-templates
-        '(("i" "Inbox" entry (file org-default-notes-file)
-           "* %?" :empty-lines-before 1)))
+        org-capture-templates '(("i" "Inbox" entry (file org-default-notes-file)
+                                 "* %?" :empty-lines-before 1)))
 
   (defun fw/org-capture-inbox ()
     "Opens the `org-capture' inbox template."
@@ -365,50 +364,35 @@ The calendar should use my native language and know about my holidays:
 (set-locale-environment "de_DE.UTF-8")
 
 (setq calendar-week-start-day 1
+      calendar-day-header-array ["So" "Mo" "Di" "Mi" "Do" "Fr" "Sa"]
       calendar-day-name-array ["Sonntag" "Montag" "Dienstag" "Mittwoch"
                                "Donnerstag" "Freitag" "Samstag"]
       calendar-month-name-array ["Jänner" "Februar" "März" "April"
-                                 "Mai" "Juni" "Juli" "August" "September"
-                                 "Oktober" "November" "Dezember"])
+                                 "Mai" "Juni" "Juli" "August"
+                                 "September" "Oktober" "November" "Dezember"])
 
-(setq parse-time-months '(("jän" . 1) ("feb" . 2) ("mär" . 3)
-                          ("apr" . 4) ("mai" . 5) ("jun" . 6)
-                          ("jul" . 7) ("aug" . 8) ("sep" . 9)
-                          ("okt" . 10) ("nov" . 11) ("dez" . 12)
-                          ("jänner" . 1) ("februar" . 2) ("märz" . 3)
-                          ("april" . 4) ("mai" . 5) ("juni" . 6)
-                          ("juli" . 7) ("august" . 8)
-                          ("september" . 9) ("oktober" . 10)
-                          ("november" . 11) ("dezember" . 12)))
+(setq parse-time-weekdays '(("so" . 0) ("mo" . 1) ("di" . 2) ("mi" . 3)
+                            ("do" . 4) ("fr" . 5) ("sa" . 6)))
 
-(setq parse-time-weekdays '(("so" . 0) ("mo" . 1) ("di" . 2)
-                            ("mi" . 3) ("do" . 4) ("fr" . 5)
-                            ("sa" . 6) ("sonntag" . 0) ("montag" . 1)
-                            ("dienstag" . 2) ("mittwoch" . 3)
-                            ("donnerstag" . 4) ("freitag" . 5)
-                            ("samstag" . 6)))
-
-(setq holiday-local-holidays '((holiday-fixed 1 1 "Neujahr (frei)")
-                               (holiday-fixed 1 6 "Heilige Drei Könige (frei)")
-                               (holiday-fixed 2 14 "Valentinstag")
-                               (holiday-easter-etc 1 "Ostermontag (frei)")
-                               (holiday-easter-etc -46 "Aschermittwoch")
-                               (holiday-easter-etc -2 "Karfreitag")
-                               (holiday-fixed 5 1 "Österreichischer Staatsfeiertag (frei)")
-                               (holiday-easter-etc 39 "Christi Himmelfahrt (frei)")
-                               (holiday-easter-etc 50 "Pfingstmontag (frei)")
-                               (holiday-easter-etc 60 "Fronleichnam (frei)")
-                               (holiday-float 5 0 2 "Muttertag")
-                               (holiday-float 6 0 2 "Vatertag")
-                               (holiday-fixed 8 15 "Mariä Himmelfahrt (frei)")
-                               (holiday-fixed 10 26 "Nationalfeiertag (frei)")
-                               (holiday-fixed 11 1 "Allerheiligen (frei)")
-                               (holiday-fixed 12 8 "Maria Empfängnis (frei)")
-                               (holiday-fixed 12 24 "Heiliger Abend")
-                               (holiday-fixed 12 25 "Erster Weihnachtstag (frei)")
-                               (holiday-fixed 12 26 "Zweiter Weihnachtstag (frei)")))
-
-(setq calendar-holidays (append holiday-local-holidays holiday-other-holidays))
+(setq calendar-holidays '((holiday-fixed 1 1 "Neujahr (frei)")
+                          (holiday-fixed 1 6 "Heilige Drei Könige (frei)")
+                          (holiday-fixed 2 14 "Valentinstag")
+                          (holiday-easter-etc 1 "Ostermontag (frei)")
+                          (holiday-easter-etc -46 "Aschermittwoch")
+                          (holiday-easter-etc -2 "Karfreitag")
+                          (holiday-fixed 5 1 "Österreichischer Staatsfeiertag (frei)")
+                          (holiday-easter-etc 39 "Christi Himmelfahrt (frei)")
+                          (holiday-easter-etc 50 "Pfingstmontag (frei)")
+                          (holiday-easter-etc 60 "Fronleichnam (frei)")
+                          (holiday-float 5 0 2 "Muttertag")
+                          (holiday-float 6 0 2 "Vatertag")
+                          (holiday-fixed 8 15 "Mariä Himmelfahrt (frei)")
+                          (holiday-fixed 10 26 "Nationalfeiertag (frei)")
+                          (holiday-fixed 11 1 "Allerheiligen (frei)")
+                          (holiday-fixed 12 8 "Maria Empfängnis (frei)")
+                          (holiday-fixed 12 24 "Heiliger Abend")
+                          (holiday-fixed 12 25 "Erster Weihnachtstag (frei)")
+                          (holiday-fixed 12 26 "Zweiter Weihnachtstag (frei)")))
 #+end_src
 
 ** Theme
@@ -539,7 +523,7 @@ The calendar should use my native language and know about my holidays:
            ("t" . org-todo)
            ("s" . org-schedule)
            ("d" . org-deadline)
-           ("." . org-timestamp)
+           ("." . org-time-stamp)
            (":" . org-timestamp-inactive)
            ("m" . org-insert-structure-template)
            ("b" . org-babel-tangle))
