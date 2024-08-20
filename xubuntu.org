@@ -343,7 +343,7 @@ Setup the package manager:
                      (org-agenda-scheduled-leaders '("" ""))
                      (org-agenda-skip-deadline-prewarning-if-scheduled t)))
             (todo ""
-                  ((org-agenda-overriding-header "\nOffen\n")
+                  ((org-agenda-overriding-header "\nSonstiges\n")
                    (org-agenda-block-separator nil)
                    (org-agenda-prefix-format "%-2i %-12:c%?-12t% s")
                    (org-agenda-sorting-strategy '(todo-state-up))
