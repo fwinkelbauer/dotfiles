@@ -254,7 +254,7 @@ Setup the package manager:
 
 (package-initialize)
 
-(setq package-selected-packages '(embark-consult embark consult vertico orderless doom-modeline company magit color-theme-sanityinc-tomorrow)
+(setq package-selected-packages '(embark-consult embark consult vertico orderless company magit color-theme-sanityinc-tomorrow)
       use-package-always-ensure t)
 #+end_src
 
@@ -285,6 +285,16 @@ Setup the package manager:
 (delete-selection-mode t)
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 (show-paren-mode t)
+
+(setq-default mode-line-format
+              '("%e" mode-line-front-space
+                (:propertize
+                 ("" mode-line-mule-info mode-line-client mode-line-modified
+                  mode-line-remote)
+                 display (min-width (5.0)))
+                mode-line-frame-identification mode-line-buffer-identification
+                "  %l:%c  " mode-line-modes
+                mode-line-misc-info mode-line-end-spaces))
 #+end_src
 
 ** Dired
@@ -331,7 +341,7 @@ Setup the package manager:
         '(("." "Overview"
            ((agenda ""
                     ((org-agenda-overriding-header "Kalender\n")
-                     (org-agenda-prefix-format "%-2i %-12:c%?-12t% s")
+                     (org-agenda-prefix-format "%-11c%?-12t")
                      (org-agenda-sorting-strategy '(todo-state-up))
                      (org-agenda-time-grid '((daily today require-timed)
                                              (800 1000 1200 1400 1600 1800 2000)
@@ -345,7 +355,7 @@ Setup the package manager:
             (todo ""
                   ((org-agenda-overriding-header "\nSonstiges\n")
                    (org-agenda-block-separator nil)
-                   (org-agenda-prefix-format "%-2i %-12:c%?-12t% s")
+                   (org-agenda-prefix-format "%-11c%?-12t")
                    (org-agenda-sorting-strategy '(todo-state-up))
                    (org-agenda-todo-ignore-deadlines 'all)
                    (org-agenda-todo-ignore-scheduled 'all)))))))
@@ -403,31 +413,6 @@ The calendar should use my native language and know about my holidays:
   (load-theme 'sanityinc-tomorrow-night t)
   (set-face-attribute 'org-agenda-structure nil :height 1.25)
   (set-face-attribute 'org-agenda-date-today nil :slant 'normal :underline t))
-#+end_src
-
-** Doom Modeline
-
-#+begin_src emacs-lisp
-(use-package doom-modeline
-  :config
-  (doom-modeline-mode 1)
-  (setq doom-modeline-buffer-file-name-style 'relative-from-project
-        doom-modeline-percent-position nil))
-#+end_src
-
-** Nerd Icons
-
-#+begin_src emacs-lisp
-(use-package nerd-icons
-  :config
-  (setq org-agenda-category-icon-alist
-        (list `("Inbox" ,(list (nerd-icons-mdicon "nf-md-email")))
-              `("Termin" ,(list (nerd-icons-mdicon "nf-md-calendar")))
-              `("Frist" ,(list (nerd-icons-mdicon "nf-md-shield_alert")))
-              `("Aufgabe" ,(list (nerd-icons-mdicon "nf-md-file_document_outline")))
-              `("Wiederh" ,(list (nerd-icons-mdicon "nf-md-update")))
-              `("Geburtstag" ,(list (nerd-icons-mdicon "nf-md-cake_variant")))
-              `("Wichtig" ,(list (nerd-icons-mdicon "nf-md-star"))))))
 #+end_src
 
 ** Magit
@@ -554,6 +539,7 @@ The calendar should use my native language and know about my holidays:
            ("SPC" . rectangle-mark-mode)
            ("t" . string-rectangle)
            ("d" . delete-rectangle)
+           ("?" . count-words-region)
            ("g" . fw/project-map)
            ("c" . fw/org-map)
            ("x" . fw/x-map))
