@@ -205,6 +205,8 @@ A script to turn my bank statements into csv files that I can import into
 Homebank:
 
 #+begin_src sh :tangle "~/.local/bin/my-homebank" :shebang "#!/bin/bash -eu"
+homebank ~/Documents/finance.xhb &
+
 input=$(find ~/Downloads -name 'meinElba*.csv')
 output=~/Downloads/homebank.csv
 
