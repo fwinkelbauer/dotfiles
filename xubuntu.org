@@ -314,8 +314,7 @@ Setup the package manager:
   (delete-other-windows)
   (dired "~/Downloads")
   (fw/split-window-horizontally)
-  (dired "~/Documents/archive")
-  (other-window 1))
+  (dired "~/Documents/archive"))
 #+end_src
 
 ** Org
