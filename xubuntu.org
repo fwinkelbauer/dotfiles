@@ -136,6 +136,12 @@ X-XFCE-Commands=flatpak run org.mozilla.Thunderbird
 
 ** Chunkyard
 
+A utility script for other scripts:
+
+#+begin_src sh :tangle "~/.local/bin/my-chunkyard" :shebang "#!/bin/bash -eu"
+chunkyard "$@" --prompt 'Libsecret' --repository ~/.chunkyard
+#+end_src
+
 Create a new backup:
 
 #+begin_src sh :tangle "~/.local/bin/my-store" :shebang "#!/bin/bash -eu"
@@ -156,7 +162,7 @@ includes=(
     '!authorized_keys$'
 )
 
-chunkyard store --repository "$local" --paths "${paths[@]}" --includes "${includes[@]}" --prompt 'Libsecret' "$@"
+my-chunkyard store --paths "${paths[@]}" --includes "${includes[@]}" "$@"
 #+end_src
 
 Restore the latest backup:
@@ -164,13 +170,13 @@ Restore the latest backup:
 #+begin_src sh :tangle "~/.local/bin/my-restore" :shebang "#!/bin/bash -eu"
 local=~/.chunkyard
 
-chunkyard restore --repository "$local" --directory ~/ --prompt 'Libsecret' "$@"
+my-chunkyard restore --directory ~/ "$@"
 
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
 #+end_src
 
-Copy backup data from/to external devices:
+Copy local backup data from/to external devices:
 
 #+begin_src sh :tangle "~/.local/bin/my-copy" :shebang "#!/bin/bash -eu"
 local=~/.chunkyard
