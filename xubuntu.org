@@ -349,14 +349,13 @@ Setup the package manager:
            ((agenda ""
                     ((org-agenda-overriding-header "Kalender\n")
                      (org-agenda-prefix-format "%-11c%?-12t")
-                     (org-agenda-sorting-strategy '(todo-state-up))
                      (org-agenda-time-grid '((daily today require-timed)
                                              (800 1000 1200 1400 1600 1800 2000)
                                              " ....."
                                              "----------------"))
                      (org-agenda-time-leading-zero t)
                      (org-agenda-show-future-repeats nil)
-                     (org-agenda-current-time-string "****************")
+                     (org-agenda-current-time-string "<<<<<<<<<<<<<<<<")
                      (org-agenda-scheduled-leaders '("" ""))
                      (org-agenda-skip-deadline-prewarning-if-scheduled t)))
             (todo ""
