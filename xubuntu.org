@@ -371,7 +371,14 @@ Setup the package manager:
     (interactive)
     (delete-other-windows)
     (find-file org-default-notes-file)
-    (org-agenda nil ".")))
+    (org-agenda nil "."))
+
+  (defun fw/org-icalendar-export ()
+    "Export current buffer to an iCalendar file in ~/Downloads/"
+    (let ((icalendar-export-sexp-enumeration-days 365))
+      (rename-file (org-icalendar-export-to-ics)
+                   "~/Downloads/"
+                   t))))
 #+end_src
 
 The calendar should use my native language and know about my holidays:
