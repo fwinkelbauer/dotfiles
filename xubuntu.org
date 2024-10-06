@@ -138,7 +138,7 @@ X-XFCE-Commands=flatpak run org.mozilla.Thunderbird
 
 A utility script for other scripts:
 
-#+begin_src sh :tangle "~/.local/bin/my-chunkyard" :shebang "#!/bin/bash -eu"
+#+begin_src sh :tangle "~/.local/bin/my-yard" :shebang "#!/bin/bash -eu"
 chunkyard "$@" --prompt 'Libsecret' --repository ~/.chunkyard
 #+end_src
 
@@ -162,7 +162,7 @@ includes=(
     '!authorized_keys$'
 )
 
-my-chunkyard store --paths "${paths[@]}" --includes "${includes[@]}" "$@"
+my-yard store --paths "${paths[@]}" --includes "${includes[@]}" "$@"
 #+end_src
 
 Restore the latest backup:
@@ -170,7 +170,7 @@ Restore the latest backup:
 #+begin_src sh :tangle "~/.local/bin/my-restore" :shebang "#!/bin/bash -eu"
 local=~/.chunkyard
 
-my-chunkyard restore --directory ~/ "$@"
+my-yard restore --directory ~/ "$@"
 
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
