@@ -358,7 +358,7 @@ Setup the package manager:
                      (org-agenda-current-time-string "<<<<<<<<<<<<<<<<")
                      (org-agenda-scheduled-leaders '("" ""))
                      (org-agenda-skip-deadline-prewarning-if-scheduled t)))
-            (todo ""
+            (todo "*"
                   ((org-agenda-overriding-header "\nSonstiges\n")
                    (org-agenda-block-separator nil)
                    (org-agenda-prefix-format "%-11c%?-12t")
