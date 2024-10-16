@@ -375,7 +375,7 @@ Setup the package manager:
 
   (defun fw/org-icalendar-export ()
     "Export current buffer to an iCalendar file in ~/Downloads/"
-    (let ((icalendar-export-sexp-enumeration-days 365))
+    (let ((icalendar-export-sexp-enumeration-days 128))
       (rename-file (org-icalendar-export-to-ics)
                    "~/Downloads/"
                    t))))
